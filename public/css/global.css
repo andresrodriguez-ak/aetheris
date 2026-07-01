@@ -1,0 +1,182 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   AETHERIS — GLOBAL.CSS
+   Estilos base: Variables CSS, Reset, Tipografía, Header, Menú, Footer y Utilidades
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+    --primary-blue:  #4a8eff;
+    --light-blue:    #7aadff;
+    --dark-bg:       #05050a;
+    --card-bg:       #0a0a0f;
+    --surface:       #111118;
+    --border:        #1a1a2a;
+    --text-color:    #e0e0e0;
+    --text-muted:    #666;
+
+    --anime-color:   #9d4edd;
+    --anime-light:   #c77dff;
+    --manga-color:   #dd4e4e;
+    --manga-light:   #f07070;
+    --novela-color:  #00c4a0;
+    --novela-light:  #33d9bc;
+
+    
+    --accent-current: var(--primary-blue);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+a { text-decoration: none; }
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.Container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* ── Header ── */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #080808;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    border-bottom: 1px solid var(--accent-current);
+}
+
+.header-left .logo {
+    font-size: 24px;
+    color: var(--accent-current);
+    text-decoration: none;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu-button {
+    background: #1a1a2a;
+    border: 1px solid var(--accent-current);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: inherit;
+    transition: 0.3s;
+}
+
+.menu-content {
+    display: none;
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    background-color: #1a1a2a;
+    min-width: 260px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.9);
+    z-index: 101;
+    border-radius: 8px;
+    border: 1px solid var(--accent-current);
+    overflow: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .menu:hover .menu-content { display: block; }
+}
+.menu-content.open { display: block; }
+
+.menu-search {
+    padding: 15px;
+    background: #080808;
+    display: flex;
+    gap: 5px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.menu-search input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--accent-current);
+    background: #0f0f1a;
+    color: white;
+    outline: none;
+    font-family: inherit;
+}
+
+.menu-search button {
+    background: var(--accent-current);
+    border: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.menu-search button img {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+}
+
+.menu-content a {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: 0.3s;
+}
+
+.menu-content a img { width: 20px; height: 20px; object-fit: contain; }
+.menu-content a:hover { background-color: var(--accent-current); }
+
+/* ── Body wrapper ── */
+.Body { padding: 10px 0 60px; }
+
+.Title-Section {
+    color: var(--accent-current);
+    font-size: 22px;
+    margin: 0 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+}
+
+.Title-Section::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* ── Footer ── */
+footer {
+    background-color: #050505;
+    padding: 30px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+}
+
+footer span { color: var(--accent-current); }

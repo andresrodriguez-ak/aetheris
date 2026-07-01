@@ -1,0 +1,43 @@
+# ═══════════════════════════════════════════════════════════════
+# Aetheris — .gitignore
+# ═══════════════════════════════════════════════════════════════
+
+#   CREDENCIALES 
+config/db_config.php
+
+# Archivos de entorno local
+.env
+*.env.local
+
+
+# Carpetas de contenido dinámico 
+public/uploads/banners/
+public/uploads/portadas/
+public/uploads/anima/
+public/uploads/animes/
+public/uploads/banner/
+public/uploads/fondos/
+public/uploads/imagenes/
+public/uploads/images/
+public/uploads/mangas/
+public/uploads/content/
+
+
+public/uploads/profiles/
+
+
+!public/uploads/logo.*
+
+# Logs y caché
+*.log
+/tmp/
+/cache/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp

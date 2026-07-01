@@ -1,0 +1,132 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   AETHERIS — HOME.CSS
+   Estilos exclusivos del Index: Cards de secciones (Anime/Manga/Novelas)
+   NOTA: El banner de bienvenida (.welcome-section, .welcome-title,
+   .welcome-message, .banner-content, carrusel y partículas) vive en
+   animations.css — cárgalo junto a este archivo en index.php.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Cards de sección ── */
+.section-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.section-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 40px 28px 36px;
+    text-align: center;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.section-card.anime  { --card-color: var(--anime-color);  --card-glow: rgba(157,78,221,0.10); --card-shadow: rgba(157,78,221,0.18); }
+.section-card.manga  { --card-color: var(--manga-color);  --card-glow: rgba(221,78,78,0.10);  --card-shadow: rgba(221,78,78,0.18); }
+.section-card.novela { --card-color: var(--novela-color); --card-glow: rgba(0,196,160,0.10);  --card-shadow: rgba(0,196,160,0.18); }
+
+.section-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent-current);
+    opacity: 0;
+    transition: opacity 0.35s ease, background 0s 0.35s;
+}
+
+.section-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 20%, var(--card-glow, rgba(74,142,255,0.08)) 0%, transparent 65%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.section-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--card-color, var(--accent-current));
+    box-shadow: 0 14px 40px var(--card-shadow, rgba(74,142,255,0.15));
+}
+
+.section-card:hover::before {
+    background: var(--card-color, var(--accent-current));
+    opacity: 1;
+    transition: opacity 0.35s ease, background 0s 0s;
+}
+
+.section-card:hover::after { opacity: 1; }
+
+.section-card:active {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px var(--card-shadow, rgba(74,142,255,0.2));
+}
+
+.section-icon-img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    margin-bottom: 22px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.section-card:hover .section-icon-img {
+    transform: scale(1.12) translateY(-3px);
+}
+
+.section-card.anime:hover  .section-icon-img { filter: drop-shadow(0 4px 10px rgba(157,78,221,0.5)); }
+.section-card.manga:hover  .section-icon-img { filter: drop-shadow(0 4px 10px rgba(221,78,78,0.5)); }
+.section-card.novela:hover .section-icon-img { filter: drop-shadow(0 4px 10px rgba(0,196,160,0.5)); }
+
+.section-title {
+    font-size: 22px;
+    color: white;
+    margin: 0 0 12px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+}
+
+.section-description {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0 0 28px;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+.section-button {
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    background: var(--accent-current);
+    transition: background 0.35s ease, transform 0.1s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.section-button:active { transform: scale(0.97); }
+
+.section-card.anime:hover  .section-button { background: var(--anime-color); }
+.section-card.manga:hover  .section-button { background: var(--manga-color); }
+.section-card.novela:hover .section-button { background: var(--novela-color); }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    .section-cards   { grid-template-columns: 1fr; gap: 16px; }
+    .section-card    { padding: 30px 20px 28px; }
+}
