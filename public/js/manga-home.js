@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   Aetheris — anime-home.js
+   Aetheris — manga-home.js
    Filtros del catálogo (estado, géneros, búsqueda) y carga paginada vía fetch.
    ═══════════════════════════════════════════════════════════════ */
 var csValues = { 'sel-status': '' };
@@ -130,9 +130,9 @@ function renderGenreTags() {
 
 function loadPage(pagina) {
     if (!pagina) pagina = 1;
-    var resultsContainer = document.getElementById('anime-results');
+    var resultsContainer = document.getElementById('manga-results');
     if (resultsContainer) {
-        resultsContainer.innerHTML = '<div class="loading">Cargando animes...</div>';
+        resultsContainer.innerHTML = '<div class="loading">Cargando mangas...</div>';
     }
 
     var params = new URLSearchParams();
@@ -151,7 +151,7 @@ function loadPage(pagina) {
     params.append('pagina', pagina);
 
     var base = (typeof window.BASE_URL !== 'undefined') ? window.BASE_URL : '../';
-    fetch(`${base}src/actions/ajax/ajax_catalogo_animes.php?${params.toString()}`)
+    fetch(`${base}src/actions/ajax/ajax_catalogo_mangas.php?${params.toString()}`)
         .then(function(response) {
             if(!response.ok) {
                 throw new Error("HTTP error, status = " + response.status);
@@ -170,7 +170,7 @@ function loadPage(pagina) {
         .catch(function(error) {
             console.error("Error al filtrar catálogo:", error);
             if (resultsContainer) {
-                resultsContainer.innerHTML = '<div class="error">Error al cargar los animes.</div>';
+                resultsContainer.innerHTML = '<div class="error">Error al cargar los mangas.</div>';
             }
         });
 }

@@ -5,7 +5,7 @@
     <p>Aetheris &copy; <?php echo date('Y'); ?> — Tu biblioteca digital de entretenimiento japonés</p>
 </footer>
 
-<script src="js/theme.js"></script>
+<script>window.BASE_URL = "<?php echo BASE_URL; ?>";</script>
 <script src="js/main.js"></script>
 <script src="js/animations.js"></script>
 <script src="js/search.js"></script>
