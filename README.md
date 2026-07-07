@@ -20,6 +20,8 @@ aetheris/
 │   │   ├── home.css            # Portada general
 │   │   ├── anime.css           # Catálogo y detalle de anime
 │   │   ├── manga.css           # Catálogo, detalle y lector de manga
+│   │   ├── novela.css          # Catálogo, detalle y lector de novela
+│   │   ├── directorio.css      # Directorio general (filtros + grid multi-tipo)
 │   │   └── auth.css            # Login / signup
 │   ├── js/
 │   │   ├── main.js             # Menú y búsqueda globales
@@ -30,7 +32,10 @@ aetheris/
 │   │   ├── manga-home.js       # Filtros y paginación de catálogo (manga)
 │   │   ├── anime-detalle.js    # Favoritos, seguir, progreso (anime)
 │   │   ├── manga-detalle.js    # Favoritos, seguir, progreso (manga)
-│   │   └── manga-lector.js     # Visor de PDF (pantalla completa, navegación)
+│   │   ├── manga-lector.js     # Visor de PDF (pantalla completa, navegación)
+│   │   ├── novela-detalle.js   # Favoritos, seguir, progreso (novela — por volúmenes)
+│   │   ├── novela-lector.js    # Visor de PDF (pantalla completa, navegación entre volúmenes)
+│   │   └── directorio.js       # Filtros combinados y paginación (anime + manga + novela)
 │   ├── uploads/                # Imágenes y videos (no versionados)
 │   └── *.php                   # Vistas públicas
 └── src/                        # Motor interno
@@ -39,7 +44,7 @@ aetheris/
     │   └── footer.php          # window.BASE_URL, scripts JS y cierre HTML
     ├── actions/
     │   ├── auth/            # logout, etc.
-    │   └── ajax/            # Endpoints JSON para fetch() (ajax_catalogo_animes.php, ajax_catalogo_mangas.php, etc.)
+    │   └── ajax/            # Endpoints JSON para fetch() (ajax_catalogo_animes.php, ajax_catalogo_mangas.php, ajax_filtrar_directorio.php, etc.)
     └── admin/               # Panel de administración
 ```
 
@@ -81,9 +86,11 @@ mysql -u root -p documentos < aetheris.sql
 | General  | `--primary-blue`     | `#4a8eff`  |
 | Anime    | `--anime-color`      | `#9d4edd`  |
 | Manga    | `--manga-color`      | `#680015`  |
-| Novela   | `--novela-color`     | `#00c4a0`  |
+| Novela   | `--novela-color`     | `#00ced1`  |
 
 El color activo se inyecta en cada vista como `--accent-current` en el `<head>`, según el `$accent_color` que defina la página (`anime`, `manga`, `novela` o `general`).
+
+
 
 ---
 

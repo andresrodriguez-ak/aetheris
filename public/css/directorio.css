@@ -1,0 +1,238 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   AETHERIS — DIRECTORIO.CSS
+   Estilos específicos del Directorio general: filtros + grid de resultados.
+   Usa los colores globales (--primary-blue, --card-bg, etc. de global.css),
+   sin paleta propia.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Filtros ── */
+.Filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    background: linear-gradient(145deg, #0a0a12, var(--surface));
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #1a1a2e;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    align-items: flex-start;
+}
+.Filter-Group { flex: 1; min-width: 150px; }
+.Filter-Group.filter-reset { flex: 0; min-width: auto; align-self: flex-start; }
+.Filter-Input {
+    width: 100%; padding: 11px 14px; border-radius: 8px;
+    border: 1px solid #1e1e30; border-bottom: 2px solid #2a4a8a;
+    background-color: #0a0a12; color: white; font-size: 14px;
+    font-family: inherit; transition: all 0.3s; box-sizing: border-box;
+}
+.Filter-Input:focus {
+    outline: none; border-color: var(--primary-blue);
+    background-color: #0d0d18; box-shadow: 0 5px 15px rgba(74,142,255,0.12);
+}
+.Filter-Input::placeholder { color: #555; }
+
+/* ── Reset button ── */
+.reset-btn {
+    background: var(--primary-blue); color: white; border: none;
+    padding: 11px 18px; border-radius: 8px; cursor: pointer;
+    font-size: 14px; font-family: inherit; white-space: nowrap;
+    transition: background 0.3s, transform 0.1s;
+}
+.reset-btn:hover  { background: #3a7eff; }
+.reset-btn:active { transform: scale(0.95); }
+#resetBtn { display: none; }
+
+/* ── Custom Select (Tipo / Estado) ── */
+.custom-select { position: relative; width: 100%; user-select: none; }
+.cs-selected {
+    width: 100%; padding: 11px 36px 11px 14px; border-radius: 8px;
+    border: 1px solid #1e1e30; border-bottom: 2px solid #2a4a8a;
+    background-color: #0a0a12; color: white; font-size: 14px;
+    font-family: inherit; cursor: pointer; transition: all 0.3s;
+    box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.custom-select::after {
+    content: '▾'; position: absolute; right: 14px; top: 50%;
+    transform: translateY(-50%); color: var(--primary-blue);
+    pointer-events: none; font-size: 14px;
+}
+.custom-select.open .cs-selected { border-color: var(--primary-blue); background-color: #0d0d18; }
+.cs-options {
+    display: none; position: absolute; top: calc(100% + 4px);
+    left: 0; right: 0; background: #0f0f1a;
+    border: 1px solid var(--primary-blue); border-radius: 8px;
+    z-index: 300; max-height: 220px; overflow-y: auto;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+}
+.cs-options::-webkit-scrollbar { width: 5px; }
+.cs-options::-webkit-scrollbar-track { background: #0a0a12; }
+.cs-options::-webkit-scrollbar-thumb { background: var(--primary-blue); border-radius: 4px; }
+.custom-select.open .cs-options { display: block; }
+.cs-option {
+    padding: 11px 14px; color: #ccc; font-size: 14px; cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s;
+}
+.cs-option:last-child { border-bottom: none; }
+.cs-option:hover { background: var(--primary-blue); color: white; }
+.cs-option.selected { color: var(--primary-blue); font-weight: 600; }
+
+/* ── Multi-Select Géneros ── */
+.multi-select { position: relative; width: 100%; user-select: none; }
+.ms-trigger {
+    width: 100%; padding: 11px 36px 11px 14px; border-radius: 8px;
+    border: 1px solid #1e1e30; border-bottom: 2px solid #2a4a8a;
+    background-color: #0a0a12; color: white; font-size: 14px;
+    font-family: inherit; cursor: pointer; transition: all 0.3s;
+    box-sizing: border-box; min-height: 43px; display: flex; align-items: center;
+}
+.multi-select::after {
+    content: '▾'; position: absolute; right: 14px; top: 16px;
+    color: var(--primary-blue); pointer-events: none; font-size: 14px;
+}
+.multi-select.open .ms-trigger {
+    border-color: var(--primary-blue); background-color: #0d0d18;
+    border-radius: 8px 8px 0 0;
+}
+.ms-dropdown {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    background: #0a0a12; border: 1px solid var(--primary-blue);
+    border-top: none; border-radius: 0 0 8px 8px; z-index: 300;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+}
+.multi-select.open .ms-dropdown { display: block; }
+.ms-search-wrap { padding: 8px; border-bottom: 1px solid #1e1e30; }
+.ms-search {
+    width: 100%; padding: 8px 10px; border-radius: 6px;
+    border: 1px solid #1e2a3a; background: #0d0d18; color: white;
+    font-size: 13px; font-family: inherit; box-sizing: border-box;
+}
+.ms-search:focus { outline: none; border-color: var(--primary-blue); }
+.ms-search::placeholder { color: #555; }
+.ms-list { max-height: 200px; overflow-y: auto; }
+.ms-list::-webkit-scrollbar { width: 5px; }
+.ms-list::-webkit-scrollbar-track { background: #0a0a12; }
+.ms-list::-webkit-scrollbar-thumb { background: var(--primary-blue); border-radius: 4px; }
+.ms-item {
+    padding: 10px 14px; color: #ccc; font-size: 14px; cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s;
+    display: flex; align-items: center; gap: 10px;
+}
+.ms-item:last-child { border-bottom: none; }
+.ms-item:hover { background: rgba(74,142,255,0.2); color: white; }
+.ms-item.checked { color: white; }
+.ms-checkbox {
+    width: 16px; height: 16px; border: 2px solid #2a4a8a; border-radius: 4px;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; background: transparent;
+}
+.ms-item.checked .ms-checkbox { background: var(--primary-blue); border-color: var(--primary-blue); }
+.ms-item.checked .ms-checkbox::after { content: '✓'; color: white; font-size: 11px; line-height: 1; }
+.ms-footer {
+    padding: 8px 10px; border-top: 1px solid #1e1e30;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: #888;
+}
+.ms-clear {
+    color: var(--light-blue); cursor: pointer; background: none;
+    border: none; font-size: 12px; font-family: inherit; padding: 0;
+}
+.ms-clear:hover { text-decoration: underline; }
+.ms-tags { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; max-width: calc(100% - 10px); }
+.ms-tag {
+    background: var(--primary-blue); color: white; padding: 2px 8px;
+    border-radius: 4px; font-size: 12px; display: flex; align-items: center;
+    gap: 5px; white-space: nowrap;
+}
+.ms-tag-remove { cursor: pointer; font-size: 13px; line-height: 1; opacity: 0.8; }
+.ms-tag-remove:hover { opacity: 1; }
+
+/* ── Cards ── */
+.List-Animes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px; width: 100%;
+}
+.Anime-Card {
+    background: var(--card-bg); border-radius: 8px; overflow: hidden;
+    transition: all 0.3s ease; border: 1px solid transparent;
+}
+.Anime-Card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(74,142,255,0.2);
+    border-color: var(--primary-blue);
+}
+.Anime-Image { position: relative; height: 260px; overflow: hidden; }
+.Anime-Image img {
+    width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;
+}
+.Anime-Card:hover .Anime-Image img { transform: scale(1.08); }
+.Type-Badge {
+    position: absolute; top: 10px; left: 10px; color: white;
+    padding: 4px 10px; border-radius: 4px; font-size: 11px;
+    font-weight: bold; text-transform: uppercase;
+}
+.Type-Badge[data-type="anime"]  { background: #4a8eff; }
+.Type-Badge[data-type="manga"]  { background: #9c27b0; }
+.Type-Badge[data-type="novela"] { background: #ff9800; }
+.Status-Badge {
+    position: absolute; top: 10px; right: 10px; color: white;
+    padding: 4px 10px; border-radius: 4px; font-size: 11px;
+    font-weight: bold; text-transform: uppercase;
+}
+.Status-Badge[data-status="En emisión"]   { background: #4CAF50; }
+.Status-Badge[data-status="Finalizado"]   { background: #F44336; }
+.Status-Badge[data-status="Próximamente"] { background: #FF9800; }
+.Status-Badge[data-status="En progreso"]  { background: #2196F3; }
+.Status-Badge[data-status="Abandonado"]   { background: #607D8B; }
+.Anime-Info { padding: 12px; }
+.Anime-Title {
+    font-size: 15px; margin: 0 0 6px; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; color: white; transition: color 0.3s;
+}
+.Anime-Card:hover .Anime-Title { color: var(--light-blue); }
+.Anime-Genres {
+    font-size: 12px; color: var(--text-muted);
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden; min-height: 34px;
+}
+
+/* ── Paginación ── */
+.pagination-container {
+    grid-column: 1 / -1; margin-top: 30px;
+    display: flex; flex-direction: column; align-items: center;
+}
+.pagination-info { color: var(--text-muted); margin-bottom: 10px; font-size: 14px; }
+.pagination { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; }
+.pagination-button {
+    background-color: var(--surface); color: white; border: 1px solid #1e1e30;
+    padding: 8px 12px; border-radius: 4px; cursor: pointer; transition: all 0.3s;
+    min-width: 40px; text-align: center; font-family: inherit; font-size: 14px;
+}
+.pagination-button:hover  { background-color: #1e1e30; border-color: var(--primary-blue); }
+.pagination-button.active { background-color: var(--primary-blue); border-color: var(--primary-blue); font-weight: bold; }
+.pagination-dots { display: flex; align-items: center; padding: 0 5px; color: var(--primary-blue); }
+
+/* ── Mensajes ── */
+.loading, .error, .no-results {
+    grid-column: 1 / -1; text-align: center; padding: 40px;
+    color: var(--light-blue); font-size: 18px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    .Filters { flex-direction: column; gap: 10px; padding: 14px; }
+    .Filter-Group,
+    .Filter-Group.filter-reset { flex: none; width: 100%; min-width: 0; }
+    .reset-btn { width: 100%; text-align: center; }
+    .List-Animes { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .Anime-Image  { height: 200px; }
+    .Anime-Title  { font-size: 13px; }
+    .Anime-Genres { font-size: 11px; min-height: 30px; }
+    .Anime-Info   { padding: 9px; }
+    .pagination-button { padding: 7px 9px; min-width: 34px; font-size: 13px; }
+}
+@media (max-width: 380px) {
+    .List-Animes { gap: 8px; }
+    .Anime-Image { height: 170px; }
+}

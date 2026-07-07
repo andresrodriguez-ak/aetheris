@@ -1,0 +1,774 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   AETHERIS — NOVELA.CSS
+   Estilos específicos de la sección Novelas: Catálogo + Filtros
+   (Detalle y Lector PDF se agregan en el siguiente paso, siguiendo el
+   mismo archivo único que usa manga.css)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Estilos Locales para la Sección de Novelas ── */
+:root {
+    --primary-teal:   #00ced1;
+    --light-teal:     #5ee8e8;
+    --novela-dark-bg: #04100f;
+    --novela-card-bg: #0a1f1c;
+}
+
+body {
+    background-color: var(--novela-dark-bg) !important;
+    color: #ffffff !important;
+}
+
+.novela-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.novela-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff !important;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header .menu .menu-button,
+header .menu #menuBtn.menu-button,
+header .menu a.menu-button {
+    border: 2px solid var(--primary-teal) !important;
+    color: #ffffff !important;
+    background-color: transparent !important;
+}
+
+header .menu .menu-button:hover,
+header .menu #menuBtn.menu-button:hover,
+header .menu a.menu-button:hover {
+    background-color: var(--primary-teal) !important;
+    color: #060b0a !important;
+    box-shadow: 0 0 14px rgba(0, 206, 209, 0.5) !important;
+}
+
+/* Filtros y Buscador */
+.filter-container {
+    background: var(--novela-card-bg) !important;
+    border: 1px solid rgba(0, 206, 209, 0.4) !important;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--light-teal) !important;
+}
+
+.filter-input {
+    background: #071716 !important;
+    border: 1px solid rgba(0, 206, 209, 0.5) !important;
+    color: #ffffff !important;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    width: 100%;
+    transition: border-color 0.2s;
+}
+
+.filter-input:focus {
+    border-color: var(--light-teal) !important;
+    outline: none;
+}
+
+/* Custom Select Dropdown */
+.cs-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.cs-select {
+    background: #071716 !important;
+    border: 1px solid rgba(0, 206, 209, 0.5) !important;
+    color: #ffffff !important;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.cs-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #0a1f1c !important;
+    border: 1px solid rgba(0, 206, 209, 0.6) !important;
+    border-radius: 8px;
+    margin-top: 5px;
+    max-height: 240px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+}
+
+.cs-dropdown.open {
+    display: block;
+}
+
+.cs-option {
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #ffffff !important;
+    transition: background 0.2s;
+}
+
+.cs-option:hover {
+    background: #12302c !important;
+}
+
+.cs-option.selected {
+    background: var(--primary-teal) !important;
+    color: #06201f !important;
+}
+
+/* Multi-select de Géneros */
+.ms-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px;
+    background: #071716 !important;
+    border: 1px solid rgba(0, 206, 209, 0.5) !important;
+    border-radius: 8px;
+    min-height: 42px;
+}
+
+.ms-tag {
+    background: var(--primary-teal) !important;
+    color: #06201f !important;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+}
+
+.ms-tag-remove {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-reset {
+    background: #12302c !important;
+    border: 1px solid rgba(0, 206, 209, 0.6) !important;
+    color: #ffffff !important;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    height: 42px;
+    transition: all 0.2s;
+}
+
+.btn-reset:hover {
+    background: var(--primary-teal) !important;
+    color: #06201f !important;
+}
+
+/* Resultados de Novelas */
+.novela-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.novela-card {
+    background: var(--novela-card-bg) !important;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid rgba(0, 206, 209, 0.2) !important;
+}
+
+.novela-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 206, 209, 0.5);
+    border-color: var(--primary-teal) !important;
+}
+
+.novela-card a {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    color: inherit;
+    text-decoration: none;
+}
+
+.novela-cover-wrapper {
+    position: relative;
+    aspect-ratio: 2/3;
+    width: 100%;
+}
+
+.novela-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.novela-status-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ffffff !important;
+    background: rgba(0,0,0,0.8);
+}
+
+.novela-status-tag.emision      { border-left: 3px solid #00c864 !important; }
+.novela-status-tag.finalizado   { border-left: 3px solid var(--primary-teal) !important; }
+.novela-status-tag.proximamente { border-left: 3px solid #ff9e00 !important; }
+
+.novela-info {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.novela-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff !important;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 38px;
+}
+
+.novela-genres {
+    font-size: 11px;
+    color: #7fd8d8 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Componente de Paginación */
+.pagination-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.pagination-info {
+    color: #7fd8d8 !important;
+    font-size: 13px;
+}
+
+.pagination {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pagination-button {
+    background: #0a1f1c !important;
+    border: 1px solid rgba(0, 206, 209, 0.4) !important;
+    color: #ffffff !important;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.pagination-button:hover {
+    background: #12302c !important;
+    border-color: var(--primary-teal) !important;
+}
+
+.pagination-button.active {
+    background: var(--primary-teal) !important;
+    color: #06201f !important;
+    border-color: var(--primary-teal) !important;
+}
+
+.pagination-dots {
+    padding: 8px;
+    color: #7fd8d8 !important;
+}
+
+.loading, .no-results, .error {
+    color: var(--light-teal) !important;
+    padding: 40px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.no-results .reset-btn {
+    background: var(--primary-teal);
+    color: #06201f;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Detalle de Novela — banner, ficha principal, volúmenes
+   (Lector PDF pendiente, se agrega en el siguiente paso)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.novela-banner {
+    height: 260px;
+    background-size: cover;
+    background-position: center top;
+    position: relative;
+    border-radius: 14px 14px 0 0;
+    overflow: hidden;
+}
+.novela-banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to bottom, transparent 30%, var(--novela-dark-bg));
+}
+
+.novela-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.novela-detail-card {
+    max-width: 1100px;
+    margin: -100px auto 30px;
+    display: flex;
+    gap: 30px;
+    background: var(--novela-card-bg);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    z-index: 10;
+    border: 1px solid rgba(0, 206, 209, 0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.novela-poster { flex-shrink: 0; }
+
+.novela-poster img {
+    width: 190px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    object-fit: cover;
+}
+
+.novela-detail-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.novela-detail-title {
+    font-size: 30px;
+    color: var(--primary-teal);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.novela-detail-genres { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.meta-item {
+    background-color: rgba(0, 206, 209, 0.15);
+    color: var(--light-teal);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    text-decoration: none;
+    transition: background 0.2s;
+    display: inline-block;
+}
+.meta-item:hover { background-color: rgba(0, 206, 209, 0.35); color: white; }
+.meta-item.estado {
+    background-color: rgba(0,200,100,0.12);
+    color: #00c864;
+    cursor: default;
+}
+.meta-item.estado:hover { background-color: rgba(0,200,100,0.12); color: #00c864; }
+
+.novela-synopsis h3 {
+    font-size: 16px;
+    color: var(--light-teal);
+    margin: 0 0 8px;
+}
+.novela-synopsis p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #bbb;
+    margin: 0;
+}
+
+/* ── Botones de acción (favorito / seguir / ver más tarde) ── */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: 1.5px solid #0d3b3b;
+    background: #0a1f1c;
+    color: #ccc;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    text-decoration: none;
+}
+.btn-action:hover { border-color: var(--primary-teal); color: white; }
+.btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.btn-action.active-fav {
+    background: rgba(0, 206, 209, 0.2);
+    border-color: var(--primary-teal);
+    color: var(--light-teal);
+}
+.btn-action.active-sig {
+    background: rgba(0,200,100,0.12);
+    border-color: #00c864;
+    color: #00c864;
+}
+.btn-action.active-vmt {
+    background: rgba(255,158,0,0.12);
+    border-color: #ff9e00;
+    color: #ff9e00;
+}
+
+/* ── Barra de progreso ── */
+.progress-section { margin-top: 4px; }
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 6px;
+}
+.progress-bar-bg {
+    background: #1a2a29;
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--primary-teal), var(--light-teal));
+    transition: width 0.4s ease;
+}
+
+/* ── Volúmenes ── */
+.volumenes-section {
+    max-width: 1100px;
+    margin: 0 auto 50px;
+    padding: 0 24px;
+}
+.volumenes-section .section-title {
+    color: var(--primary-teal);
+    border-bottom: 2px solid #0d3b3b;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+.volumenes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+}
+.volumen-card {
+    background: #0e201e;
+    border: 1px solid #0d3b3b;
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.2s;
+}
+.volumen-card:hover { border-color: var(--primary-teal); background: #132524; }
+.volumen-card.leido-card { opacity: 0.5; border-color: #333; }
+
+.vol-info { display: flex; flex-direction: column; gap: 3px; }
+.vol-number { font-weight: 700; color: var(--primary-teal); font-size: 14px; }
+.vol-title  { font-size: 12px; color: #777; }
+
+.vol-right { display: flex; align-items: center; gap: 10px; }
+
+.read-btn {
+    background: var(--primary-teal);
+    color: #06201f;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+.read-btn:hover { background: var(--light-teal); }
+
+.switch-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    color: #777;
+    cursor: pointer;
+    user-select: none;
+}
+.switch { position: relative; width: 36px; height: 20px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #333;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+.slider::before {
+    content: '';
+    position: absolute;
+    height: 14px; width: 14px;
+    left: 3px; bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+.switch input:checked + .slider { background: var(--primary-teal); }
+.switch input:checked + .slider::before { transform: translateX(16px); }
+
+.no-volumenes {
+    grid-column: 1 / -1;
+    text-align: center;
+    opacity: 0.5;
+    padding: 30px;
+}
+
+/* ── Responsive detalle ── */
+@media (max-width: 768px) {
+    .novela-detail-card {
+        flex-direction: column;
+        align-items: center;
+        margin-top: -80px;
+        text-align: center;
+        padding: 16px;
+    }
+    .novela-poster img { width: 150px; }
+    .novela-detail-title { font-size: 22px; }
+    .action-buttons { justify-content: center; }
+    .novela-detail-genres { justify-content: center; }
+    .volumenes-list { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Lector PDF
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.lector-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 25px 20px 50px;
+}
+
+.reader-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--novela-card-bg);
+    border: 1px solid rgba(0, 206, 209, 0.3);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+}
+.novel-thumb {
+    width: 75px;
+    height: 75px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0,0,0,.5);
+    flex-shrink: 0;
+}
+.reader-header-info h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 22px;
+    color: var(--primary-teal);
+    margin: 0 0 4px;
+    letter-spacing: 1px;
+}
+.reader-header-info h2 { font-size: 14px; color: #7fd8d8; margin: 0; font-weight: 400; }
+
+.player-wrap {
+    background: var(--novela-card-bg);
+    border: 1px solid rgba(0, 206, 209, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 22px;
+}
+
+.volume-selector { margin-bottom: 18px; }
+.volume-selector select {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--novela-dark-bg);
+    color: #ffffff;
+    border: 1px solid var(--primary-teal);
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: 'Open Sans', sans-serif;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2300ced1' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+}
+.volume-selector select:focus { outline: none; }
+
+.pdf-wrapper {
+    position: relative;
+    background: #000;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 640px;
+}
+.pdf-wrapper iframe {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.6);
+    width: 100%;
+    max-width: 88%;
+    height: 720px;
+}
+.fullscreen-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(0,0,0,.65);
+    color: white;
+    border: 1px solid var(--primary-teal);
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    z-index: 10;
+    transition: background .25s, color .25s;
+}
+.fullscreen-btn:hover { background: var(--primary-teal); color: #060b0a; }
+
+.chapter-nav { display: flex; gap: 12px; }
+.nav-btn {
+    flex: 1;
+    background: var(--primary-teal);
+    color: #060b0a;
+    padding: 13px;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background .2s, transform .2s;
+}
+.nav-btn:hover { background: var(--light-teal); transform: translateY(-2px); }
+.nav-btn.disabled { background: #1e3530; color: #5a8a7e; pointer-events: none; opacity: .6; }
+
+.volume-info {
+    background: var(--novela-card-bg);
+    border: 1px solid rgba(0, 206, 209, 0.3);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+}
+.volume-info h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 20px;
+    color: var(--primary-teal);
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.back-btn {
+    display: inline-block;
+    background: var(--novela-card-bg);
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid rgba(0, 206, 209, 0.3);
+    transition: background .2s, border-color .2s, color .2s;
+}
+.back-btn:hover { background: var(--primary-teal); color: #060b0a; border-color: var(--primary-teal); }
+
+@media (max-width: 768px) {
+    .reader-header { flex-direction: column; text-align: center; }
+    .pdf-wrapper iframe { max-width: 98%; height: 500px; }
+    .chapter-nav { flex-direction: column; }
+}
