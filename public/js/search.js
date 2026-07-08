@@ -15,14 +15,14 @@ document.addEventListener('DOMContentLoaded', function() {
    
     stage.innerHTML = '';
 
-    // Fallback si no llegaron portadas
+
     if (covers.length === 0) {
         for (var i = 1; i <= 9; i++) {
             covers.push("uploads/banner/" + i + ".jpg");
         }
     }
 
-    // Crear las portadas en el escenario
+
     covers.forEach(function(src) {
         var el = document.createElement('div');
         el.className = 'orbit-cover';
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var N = items.length;
     var angle = 0;
 
-    // Sin elementos no hay nada que animar
+
     if (N === 0) return;
 
     function tick() {

@@ -22,6 +22,7 @@ aetheris/
 │   │   ├── manga.css           # Catálogo, detalle y lector de manga
 │   │   ├── novela.css          # Catálogo, detalle y lector de novela
 │   │   ├── directorio.css      # Directorio general (filtros + grid multi-tipo)
+│   │   ├── perfil.css          # Perfil de usuario (favoritos, seguimiento, progreso)
 │   │   └── auth.css            # Login / signup
 │   ├── js/
 │   │   ├── main.js             # Menú y búsqueda globales
@@ -35,8 +36,10 @@ aetheris/
 │   │   ├── manga-lector.js     # Visor de PDF (pantalla completa, navegación)
 │   │   ├── novela-detalle.js   # Favoritos, seguir, progreso (novela — por volúmenes)
 │   │   ├── novela-lector.js    # Visor de PDF (pantalla completa, navegación entre volúmenes)
-│   │   └── directorio.js       # Filtros combinados y paginación (anime + manga + novela)
+│   │   ├── directorio.js       # Filtros combinados y paginación (anime + manga + novela)
+│   │   └── perfil.js           # Modales de editar/eliminar cuenta, filtro y file input custom
 │   ├── uploads/                # Imágenes y videos (no versionados)
+│   │   └── defaults/           # Placeholders (avatar y contenido) para imágenes rotas
 │   └── *.php                   # Vistas públicas
 └── src/                        # Motor interno
     ├── includes/
@@ -55,6 +58,8 @@ aetheris/
 - **Patrón de vista limpia**: cada `.php` ejecuta sus consultas SQL arriba (y su propio manejo de AJAX vía POST antes de imprimir HTML) y pinta HTML puro abajo.
 - **AJAX aislado**: los endpoints que devuelven JSON puro para catálogos filtrados viven en `src/actions/ajax/`; las acciones de usuario (favorito, seguir, progreso) se manejan directo en la vista de detalle antes del `header.php`.
 - **Animaciones**: carrusel 3D con perspectiva CSS, partículas en canvas.
+- **Protección CSRF**: formularios que modifican o eliminan datos de cuenta llevan un token por sesión (`$_SESSION['csrf_token']`), validado con `hash_equals()` antes de procesar cualquier POST.
+- **Fallback de imágenes**: si una imagen de contenido o de avatar no carga, se reemplaza por un placeholder fijo en `uploads/defaults/` (con `this.onerror=null` para evitar loops si el placeholder tampoco existe).
 
 ## Instalación local
 

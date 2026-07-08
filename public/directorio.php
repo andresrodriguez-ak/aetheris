@@ -14,7 +14,10 @@ $page_title = 'Directorio';
 
 require_once __DIR__ . '/../src/includes/header.php';
 ?>
-
+    <h1 class="novela-title">
+             <img src="uploads/content/icon_folder.gif" style="width:32px; height:32px; object-fit:contain;" alt="">
+        Directorio
+    </h1>
         <div class="Filters">
             <!-- Tipo -->
             <div class="Filter-Group">

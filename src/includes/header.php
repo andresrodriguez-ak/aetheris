@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once __DIR__ . '/../../config/app_config.php';
 require_once __DIR__ . '/../../config/db_config.php';
 
 $logged_in = isset($_SESSION['user_id']);
@@ -74,16 +75,11 @@ switch ($accent_color) {
                 <a href="manga-home.php"><img src="uploads/content/icon_manga.gif"> Manga</a>
                 <a href="novela-home.php"><img src="uploads/content/icon_novelas.gif"> Novelas</a>
                 <a href="directorio.php"><img src="uploads/content/icon_folder.gif"> Directorio</a>
-                <?php if($is_admin): ?>
-                    <a href="admin_dashboard.php" style="color:#4a8eff;">
-                        <img src="uploads/content/subir.png"> Panel Admin
-                    </a>
-                <?php endif; ?>
                 <?php if($logged_in): ?>
                     <a href="perfil.php">
                         <img src="uploads/content/user.png"> Mi Perfil (<?php echo htmlspecialchars($username); ?>)
                     </a>
-                    <a href="../src/actions/auth/logout.php">
+                    <a href="<?php echo BASE_URL; ?>src/actions/auth/logout.php">
                         <img src="uploads/content/salir.png"> Salir
                     </a>
                 <?php else: ?>

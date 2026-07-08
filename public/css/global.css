@@ -13,12 +13,12 @@
     --text-color:    #e0e0e0;
     --text-muted:    #666;
 
-    --anime-color:   #9d4edd;
-    --anime-light:   #c77dff;
+    --anime-color:   #b980f5;
+    --anime-light:   #dcb3ff;
     --manga-color:   #680015;
     --manga-light:   #b3324a;
-    --novela-color:  #00c4a0;
-    --novela-light:  #33d9bc;
+    --novela-color:  #00ced1;
+    --novela-light:  #5ee8e8;
 
     
     --accent-current: var(--primary-blue);
