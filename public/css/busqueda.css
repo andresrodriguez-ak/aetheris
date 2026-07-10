@@ -1,0 +1,206 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   AETHERIS — BUSQUEDA.CSS
+   Estilos específicos de la página de resultados de búsqueda (busqueda.php).
+   Usa las variables definidas en global.css (--card-bg, --border, --anime-color, etc.)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.SearchWrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 10px 0 40px;
+    min-height: 60vh;
+}
+
+/* ── Cabecera búsqueda ── */
+.search-header {
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.search-header h1 {
+    font-size: 20px;
+    margin: 0 0 6px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.search-query { color: var(--primary-blue); font-weight: 700; }
+
+.search-total {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 16px;
+}
+
+.search-total strong { color: var(--text-color); }
+
+/* ── Filtros ── */
+.filter-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.filter-button {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 7px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.filter-button:not(.active):hover { border-color: var(--primary-blue); color: var(--light-blue); }
+
+.filter-button[data-type="all"].active    { background: var(--primary-blue); border-color: var(--primary-blue); color: white; font-weight: 600; }
+.filter-button[data-type="anime"].active  { background: var(--anime-color);  border-color: var(--anime-color);  color: white; font-weight: 600; }
+.filter-button[data-type="manga"].active  { background: var(--manga-color);  border-color: var(--manga-color);  color: white; font-weight: 600; }
+.filter-button[data-type="novela"].active { background: var(--novela-color); border-color: var(--novela-color); color: white; font-weight: 600; }
+
+/* ── Resultados ── */
+.search-results { display: flex; flex-direction: column; gap: 10px; }
+
+.result-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: inherit;
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.35s ease forwards;
+}
+
+@keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-item:nth-child(1) { animation-delay: 0.0s; }
+.result-item:nth-child(2) { animation-delay: 0.05s; }
+.result-item:nth-child(3) { animation-delay: 0.1s; }
+.result-item:nth-child(4) { animation-delay: 0.15s; }
+.result-item:nth-child(5) { animation-delay: 0.2s; }
+.result-item:nth-child(6) { animation-delay: 0.25s; }
+.result-item:nth-child(7) { animation-delay: 0.3s; }
+.result-item:nth-child(8) { animation-delay: 0.35s; }
+.result-item:nth-child(9) { animation-delay: 0.4s; }
+.result-item:nth-child(10) { animation-delay: 0.45s; }
+.result-item:nth-child(11) { animation-delay: 0.5s; }
+.result-item:nth-child(12) { animation-delay: 0.55s; }
+.result-item:nth-child(13) { animation-delay: 0.6s; }
+.result-item:nth-child(14) { animation-delay: 0.65s; }
+.result-item:nth-child(15) { animation-delay: 0.7s; }
+.result-item:nth-child(16) { animation-delay: 0.75s; }
+.result-item:nth-child(17) { animation-delay: 0.8s; }
+.result-item:nth-child(18) { animation-delay: 0.85s; }
+.result-item:nth-child(19) { animation-delay: 0.9s; }
+.result-item:nth-child(20) { animation-delay: 0.95s; }
+
+.result-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(74,142,255,0.1);
+    background: var(--surface);
+}
+
+/* borde izquierdo por tipo */
+.result-item[data-type="anime"]  { border-left: 3px solid var(--anime-color); }
+.result-item[data-type="manga"]  { border-left: 3px solid var(--manga-color); }
+.result-item[data-type="novela"] { border-left: 3px solid var(--novela-color); }
+
+.result-item[data-type="anime"]:hover  { border-color: var(--anime-color);  box-shadow: 0 6px 20px rgba(157,78,221,0.15); }
+.result-item[data-type="manga"]:hover  { border-color: var(--manga-color);  box-shadow: 0 6px 20px rgba(221,78,78,0.15); }
+.result-item[data-type="novela"]:hover { border-color: var(--novela-color); box-shadow: 0 6px 20px rgba(0,196,160,0.15); }
+
+/* ── Imagen / Placeholder ── */
+.ResultImgWrap {
+    width: 70px;
+    height: 100px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* cuando la imagen real falla y se usa DEFAULT_CONTENT_IMG, se fuerza un
+   tamaño fijo chico para que el ícono no se estire ocupando todo el wrapper */
+.result-image.img-placeholder {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    opacity: 0.5;
+}
+
+/* ── Info ── */
+.result-info { flex: 1; min-width: 0; }
+
+.result-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s;
+}
+
+.result-item[data-type="anime"]  .result-title { color: var(--anime-light); }
+.result-item[data-type="manga"]  .result-title { color: var(--manga-light); }
+.result-item[data-type="novela"] .result-title { color: var(--novela-light); }
+.result-item:hover .result-title { color: white; }
+
+/* resaltado de coincidencia */
+.result-title mark {
+    background: transparent;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    color: white;
+}
+
+/* badge tipo */
+.result-type {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+.result-item[data-type="anime"]  .result-type { background: rgba(157,78,221,0.15); border: 1px solid rgba(157,78,221,0.3); color: var(--anime-light); }
+.result-item[data-type="manga"]  .result-type { background: rgba(221,78,78,0.15);  border: 1px solid rgba(221,78,78,0.3);  color: var(--manga-light); }
+.result-item[data-type="novela"] .result-type { background: rgba(0,196,160,0.15);  border: 1px solid rgba(0,196,160,0.3);  color: var(--novela-light); }
+
+/* ── Sin resultados ── */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.no-results svg { width: 52px; height: 52px; opacity: 0.25; margin-bottom: 16px; }
+.no-results p { margin: 6px 0; font-size: 15px; }
+.no-results p:first-of-type { color: var(--text-color); font-weight: 600; font-size: 17px; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    .SearchWrap { padding: 6px 0 30px; }
+    .search-header h1 { font-size: 17px; }
+    .ResultImgWrap { width: 56px; height: 82px; }
+    .result-title { font-size: 14px; }
+}

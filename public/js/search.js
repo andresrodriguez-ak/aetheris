@@ -1,79 +1,65 @@
 /* ═══════════════════════════════════════════════════════════════
    Aetheris — search.js
-   Carrusel 3D orbital de portadas en el banner de bienvenida.
+   Todo lo relacionado a búsqueda:
+   1. Buscador del header (presente en todas las páginas).
+   2. Resaltado de coincidencias y filtros por tipo en busqueda.php
+      (esta parte solo corre si existe #searchResults en la página).
+   Requiere window.BASE_URL inyectado por PHP.
    ═══════════════════════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', function() {
-    // Portadas del carrusel (inyectadas por PHP)
-    var covers = window.AetherisBannerCovers || [];
-    var stage = document.getElementById('orbitStage');
-    
-    
-    if (!stage) {
-        return;
+document.addEventListener('DOMContentLoaded', function () {
+
+    // ─── 1. BUSCADOR DEL HEADER ───
+    var searchInput = document.getElementById('m-search');
+    var searchBtn   = document.querySelector('.menu-search button');
+
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') { e.preventDefault(); buscarContenido(); }
+        });
+    }
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            buscarContenido();
+        });
     }
 
-   
-    stage.innerHTML = '';
+    // ─── 2. RESULTADOS DE BÚSQUEDA (solo corre en busqueda.php) ───
+    var resultsContainer = document.getElementById('searchResults');
+    if (resultsContainer) {
+        var searchQuery = resultsContainer.getAttribute('data-query') || '';
 
+        var highlightText = function (text, query) {
+            if (!query) return text;
+            var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            var regex = new RegExp('(' + escaped + ')', 'gi');
+            return text.replace(regex, '<mark>$1</mark>');
+        };
 
-    if (covers.length === 0) {
-        for (var i = 1; i <= 9; i++) {
-            covers.push("uploads/banner/" + i + ".jpg");
-        }
-    }
-
-
-    covers.forEach(function(src) {
-        var el = document.createElement('div');
-        el.className = 'orbit-cover';
-        var img = document.createElement('img');
-        img.src = src;
-        img.alt = "";
-        img.loading = "lazy";
-        el.appendChild(img);
-        stage.appendChild(el);
-    });
-
-    var items = stage.querySelectorAll('.orbit-cover');
-    var N = items.length;
-    var angle = 0;
-
-
-    if (N === 0) return;
-
-    function tick() {
-        angle += 0.4;
-        var step = (Math.PI * 2) / N;
-        var W = stage.offsetWidth || 1200;
-        var RX = W / 2 - 60;
-        var RY = 38;
-        var CX = W / 2;
-        var CY = 110;
-
-        items.forEach(function(el, i) {
-            var a = i * step + (angle * Math.PI / 180);
-            var x = Math.sin(a) * RX;
-            var z = Math.cos(a);
-            var y = Math.cos(a) * RY;
-            var scale = 0.55 + 0.45 * ((z + 1) / 2);
-
-            el.style.left = (CX + x - 40) + 'px';
-            el.style.top = (CY + y - 55) + 'px';
-            el.style.transform = 'scale(' + scale + ')';
-            el.style.zIndex = Math.round((z + 1) * 100);
-
-            el.classList.remove('is-front', 'is-side', 'is-back');
-            if (z > 0.6) {
-                el.classList.add('is-front');
-            } else if (z < -0.4) {
-                el.classList.add('is-back');
-            } else {
-                el.classList.add('is-side');
-            }
+        document.querySelectorAll('.result-title[data-raw]').forEach(function (el) {
+            el.innerHTML = highlightText(el.dataset.raw, searchQuery);
         });
 
-        requestAnimationFrame(tick);
+        document.querySelectorAll('.filter-button').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.filter-button').forEach(function (b) {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                var type = this.dataset.type;
+                document.querySelectorAll('.result-item').forEach(function (item) {
+                    item.style.display = (type === 'all' || item.dataset.type === type) ? 'flex' : 'none';
+                });
+            });
+        });
     }
-    
-    tick();
 });
+
+function buscarContenido() {
+    var input = document.getElementById('m-search');
+    if (input && input.value.trim() !== '') {
+        var base = (typeof window.BASE_URL !== 'undefined') ? window.BASE_URL : '';
+        window.location.href = base + 'busqueda.php?q=' + encodeURIComponent(input.value.trim());
+    }
+}

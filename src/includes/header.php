@@ -31,7 +31,6 @@ switch ($accent_color) {
         break;
 }
 ?>
-<!-- DEBUG page_css: <?php echo isset($page_css) ? implode(',', $page_css) : 'NO DEFINIDA'; ?> -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -66,7 +65,8 @@ switch ($accent_color) {
             <button class="menu-button" id="menuBtn">Menú ▼</button>
             <div class="menu-content" id="menuContent">
                 <div class="menu-search">
-                    <input type="text" id="m-search" placeholder="Buscar..." autocomplete="off">
+                    <input type="text" id="m-search" placeholder="Buscar..." autocomplete="off"
+                           value="<?php echo htmlspecialchars($search_query ?? ''); ?>">
                     <button type="button">
                         <img src="uploads/content/icon_search.png" alt="Buscar">
                     </button>

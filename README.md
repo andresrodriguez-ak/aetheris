@@ -23,11 +23,12 @@ aetheris/
 │   │   ├── novela.css          # Catálogo, detalle y lector de novela
 │   │   ├── directorio.css      # Directorio general (filtros + grid multi-tipo)
 │   │   ├── perfil.css          # Perfil de usuario (favoritos, seguimiento, progreso)
+│   │   ├── busqueda.css        # Página de resultados de búsqueda (filtros, tarjetas de resultado)
 │   │   └── auth.css            # Login / signup
 │   ├── js/
-│   │   ├── main.js             # Menú y búsqueda globales
-│   │   ├── animations.js       # Partículas, carrusel
-│   │   ├── search.js           # Buscador
+│   │   ├── main.js             # Menú desplegable
+│   │   ├── animations.js       # Partículas, estrellas de tarjetas, carrusel 3D orbital y easter egg de sakura
+│   │   ├── search.js           # Buscador del header + resaltado y filtros en la página de resultados
 │   │   ├── ajax-actions.js     # fetch() de favoritos, progreso, seguimiento
 │   │   ├── anime-home.js       # Filtros y paginación de catálogo (anime)
 │   │   ├── manga-home.js       # Filtros y paginación de catálogo (manga)

@@ -208,7 +208,6 @@ function linkTipo($tipo, $id) {
     }
 }
 
-define('DEFAULT_CONTENT_IMG', 'uploads/defaults/default_content.webp');
 
 function colorVar($tipo) {
     switch ($tipo) {
