@@ -11,6 +11,12 @@ public/uploads/*
 !public/uploads/defaults/
 !public/uploads/aetheris.*
 
+# Scripts
+scripts/.env
+scripts/venv/
+scripts/__pycache__/
+scripts/common/__pycache__/
+*.pyc
 
 # Logs y cache
 *.log
