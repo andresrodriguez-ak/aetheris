@@ -1,35 +1,18 @@
-# ═══════════════════════════════════════════════════════════════
-# Aetheris — .gitignore
-# ═══════════════════════════════════════════════════════════════
-
-#   CREDENCIALES 
+# Credenciales y configuracion
 config/db_config.php
-
-# Archivos de entorno local
 .env
 *.env.local
 
+# Contenido dinamico
+public/uploads/*
 
-# Carpetas de contenido dinámico 
-public/uploads/banners/
-public/uploads/portadas/
-public/uploads/anima/
-public/uploads/animes/
-public/uploads/banner/
-public/uploads/defaults/
-public/uploads/fondos/
-public/uploads/imagenes/
-public/uploads/images/
-public/uploads/mangas/
-public/uploads/content/
+# Excepciones (Archivos de interfaz)
+!public/uploads/content/
+!public/uploads/defaults/
+!public/uploads/aetheris.*
 
 
-public/uploads/profiles/
-
-
-!public/uploads/logo.*
-
-# Logs y caché
+# Logs y cache
 *.log
 /tmp/
 /cache/
@@ -38,7 +21,7 @@ public/uploads/profiles/
 .DS_Store
 Thumbs.db
 
-# IDEs
+# Editores e IDEs
 .vscode/
 .idea/
 *.swp
