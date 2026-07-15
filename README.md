@@ -50,6 +50,21 @@ aetheris/
     │   ├── auth/            # logout, etc.
     │   └── ajax/            # Endpoints JSON para fetch() (ajax_catalogo_animes.php, ajax_catalogo_mangas.php, ajax_filtrar_directorio.php, etc.)
     └── admin/               # Panel de administración
+        ├── includes/
+        │   ├── header.php          # Header propio de admin (reusa global.css + $accent_color de la sección)
+        │   └── footer.php          # Carga admin.js + $admin_js extra por página
+        ├── css/
+        │   ├── admin.css           # Dashboard: tarjetas de sección, menú, alertas
+        │   ├── lista_contenido.css # Editor de episodios/capítulos/volúmenes (select con buscador)
+        │   └── subir_contenido.css # Formularios de carga (subir_anime, subir_episodio, etc.)
+        ├── js/
+        │   ├── admin.js            # Menú + buscador del header de admin
+        │   ├── lista_contenido.js  # Desplegable + filtro en editores de contenido
+        │   └── subir_contenido.js  # Carga de imagen con preview integrada + select con buscador
+        ├── subir_contenido.php     # Dashboard con accesos a cada sección
+        ├── subir_anime.php         # Alta de series de anime (imágenes se convierten a WEBP)
+        ├── subir_episodio.php      # Alta de episodios (embed_code)
+        └── lista_episodios.php     # Edición de embeds de episodios ya cargados
 ```
 
 ## Características técnicas
@@ -61,6 +76,7 @@ aetheris/
 - **Animaciones**: carrusel 3D con perspectiva CSS, partículas en canvas.
 - **Protección CSRF**: formularios que modifican o eliminan datos de cuenta llevan un token por sesión (`$_SESSION['csrf_token']`), validado con `hash_equals()` antes de procesar cualquier POST.
 - **Fallback de imágenes**: si una imagen de contenido o de avatar no carga, se reemplaza por un placeholder fijo en `uploads/defaults/` (con `this.onerror=null` para evitar loops si el placeholder tampoco existe).
+- **Conversión automática a WEBP**: las imágenes subidas desde el panel de administración (JPEG, PNG o WEBP) se procesan con GD y se guardan siempre como `.webp`, sin importar el formato original.
 
 ## Instalación local
 
