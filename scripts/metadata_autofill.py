@@ -82,16 +82,29 @@ if not PROJECT_ROOT:
     sys.exit("Definí PROJECT_ROOT en tu .env (ruta absoluta a la carpeta aetheris/).")
 
 
+def pedir_a_jikan(url, params=None, intentos=4):
+    espera = 2
+    for intento in range(1, intentos + 1):
+        try:
+            resp = requests.get(url, params=params, timeout=15)
+            if resp.status_code in (502, 503, 504):
+                raise requests.RequestException(f"HTTP {resp.status_code}")
+            resp.raise_for_status()
+            return resp.json()
+        except requests.RequestException as e:
+            if intento == intentos:
+                sys.exit(f"No se pudo consultar Jikan tras {intentos} intentos: {e}")
+            print(f"Jikan no respondió ({e}), reintentando en {espera}s... ({intento}/{intentos})")
+            time.sleep(espera)
+            espera *= 2
+
+
 def buscar(cfg, query):
     params = {"q": query, "limit": 8}
     if cfg["jikan_type_param"]:
         params["type"] = cfg["jikan_type_param"]
-    try:
-        resp = requests.get(f"{JIKAN_BASE}/{cfg['jikan_path']}", params=params, timeout=15)
-        resp.raise_for_status()
-    except requests.RequestException as e:
-        sys.exit(f"No se pudo consultar Jikan: {e}")
-    return resp.json().get("data", [])
+    data = pedir_a_jikan(f"{JIKAN_BASE}/{cfg['jikan_path']}", params=params)
+    return data.get("data", [])
 
 
 def elegir_resultado(resultados):
@@ -155,9 +168,7 @@ def main():
     elegido = elegir_resultado(resultados)
 
     time.sleep(0.4)
-    detalle = requests.get(
-        f"{JIKAN_BASE}/{cfg['jikan_path']}/{elegido['mal_id']}/full", timeout=15
-    ).json()["data"]
+    detalle = pedir_a_jikan(f"{JIKAN_BASE}/{cfg['jikan_path']}/{elegido['mal_id']}/full")["data"]
 
     nombre = detalle["title"]
     descripcion = (detalle.get("synopsis") or "").strip()
@@ -235,7 +246,7 @@ def main():
     conn.commit()
     print(f"\nInsertado correctamente en '{cfg['table']}'. id = {nuevo_id}")
     if generos_faltantes:
-        print("Recordá agregar manualmente los géneros que no matchearon.")
+        print("Recuerda agregar manualmente los géneros que no matchearon.")
 
     cur.close()
     conn.close()
