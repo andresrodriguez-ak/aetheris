@@ -1,9 +1,4 @@
 <?php
-/* ═══════════════════════════════════════════════════════════════
-   Aetheris Admin — subir_manga.php
-   Formulario de carga de un nuevo manga: información básica,
-   géneros e imágenes (miniatura + portada opcional).
-   ═══════════════════════════════════════════════════════════════ */
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

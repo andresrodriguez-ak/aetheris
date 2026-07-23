@@ -1,9 +1,5 @@
 <?php
-/* ═══════════════════════════════════════════════════════════════
-   Aetheris Admin — subir_capitulo.php
-   Formulario de carga de un nuevo capítulo de manga: manga
-   asociado, rango de capítulos y enlace de Google Drive al PDF.
-   ═══════════════════════════════════════════════════════════════ */
+
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

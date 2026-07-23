@@ -1,9 +1,5 @@
 <?php
-/* ═══════════════════════════════════════════════════════════════
-   Aetheris Admin — subir_volumen.php
-   Formulario de carga de un nuevo volumen de novela: novela
-   asociada, número de volumen y enlace de Google Drive al PDF.
-   ═══════════════════════════════════════════════════════════════ */
+
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

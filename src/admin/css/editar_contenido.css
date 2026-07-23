@@ -1,0 +1,48 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   AETHERIS ADMIN — EDITAR_CONTENIDO.CSS
+   Estilos propios de editar_contenido.php: pestañas de tipo de
+   contenido y estado vacío del selector. El resto (tarjetas de
+   formulario, chips de género, carga de imagen, select con
+   buscador) se reusa de subir_contenido.css.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.type-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.type-tab-btn {
+    padding: 10px 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.type-tab-btn:hover {
+    border-color: var(--accent-current);
+    color: var(--text-color);
+}
+
+.type-tab-btn.active {
+    background: var(--accent-current);
+    border-color: var(--accent-current);
+    color: white;
+}
+
+.edit-empty-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    font-style: italic;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}

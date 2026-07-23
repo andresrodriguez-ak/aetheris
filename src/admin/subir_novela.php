@@ -1,9 +1,5 @@
 <?php
-/* ═══════════════════════════════════════════════════════════════
-   Aetheris Admin — subir_novela.php
-   Formulario de carga de una nueva novela: información básica,
-   géneros e imagen de portada.
-   ═══════════════════════════════════════════════════════════════ */
+
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

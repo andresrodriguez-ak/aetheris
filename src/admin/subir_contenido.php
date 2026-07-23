@@ -5,14 +5,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . '/../../config/app_config.php';
 
-// Verificar si el usuario está logueado
+
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['redirect_to'] = 'subir_contenido.php';
     header("Location: " . BASE_URL . "public/login.php");
     exit();
 }
 
-// Verificar si es administrador
+
 if (($_SESSION['role'] ?? '') !== 'admin') {
     $_SESSION['error'] = "Acceso restringido a administradores";
     header("Location: " . BASE_URL . "public/index.php");
@@ -36,7 +36,7 @@ require_once __DIR__ . '/includes/header.php';
 
     <div class="upload-options">
 
-        <!-- Gestión de Anime -->
+   
         <div class="upload-option" data-type="anime">
             <img src="<?php echo BASE_URL; ?>public/uploads/content/anni.gif" class="upload-icon-img" alt="Anime">
             <h3 class="upload-title">Gestión de Anime</h3>
@@ -48,7 +48,7 @@ require_once __DIR__ . '/includes/header.php';
             </div>
         </div>
 
-        <!-- Gestión de Manga -->
+
         <div class="upload-option" data-type="manga">
             <img src="<?php echo BASE_URL; ?>public/uploads/content/icon_manga.gif" class="upload-icon-img" alt="Manga">
             <h3 class="upload-title">Gestión de Manga</h3>
@@ -60,7 +60,7 @@ require_once __DIR__ . '/includes/header.php';
             </div>
         </div>
 
-        <!-- Gestión de Novelas -->
+
         <div class="upload-option" data-type="novela">
             <img src="<?php echo BASE_URL; ?>public/uploads/content/icon_novelas.gif" class="upload-icon-img" alt="Novelas">
             <h3 class="upload-title">Gestión de Novelas</h3>
@@ -74,7 +74,7 @@ require_once __DIR__ . '/includes/header.php';
 
     </div>
 
-    <!-- Botón de Edición General -->
+  
     <div class="panel-footer">
         <a href="editar_contenido.php" class="upload-button" style="padding: 13px 38px; font-size: 14px; text-transform: uppercase; letter-spacing: .5px;">
             Editar Contenido General
