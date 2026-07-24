@@ -24,18 +24,20 @@ aetheris/
 │   │   ├── directorio.css      # Directorio general (filtros + grid multi-tipo)
 │   │   ├── perfil.css          # Perfil de usuario (favoritos, seguimiento, progreso)
 │   │   ├── busqueda.css        # Página de resultados de búsqueda (filtros, tarjetas de resultado)
-│   │   └── auth.css            # Login / signup
+│   │   ├── auth.css            # Login / signup
+│   │   └── action-buttons.css  # Botón favorito + dropdown de estado (anime/manga/novela)
 │   ├── js/
 │   │   ├── main.js             # Menú desplegable
 │   │   ├── animations.js       # Partículas, estrellas de tarjetas, carrusel 3D orbital y easter egg de sakura
 │   │   ├── search.js           # Buscador del header + resaltado y filtros en la página de resultados
 │   │   ├── ajax-actions.js     # fetch() de favoritos, progreso, seguimiento
+│   │   ├── action-buttons.js   # Favorito + dropdown de estado (compartido anime/manga/novela)
 │   │   ├── anime-home.js       # Filtros y paginación de catálogo (anime)
 │   │   ├── manga-home.js       # Filtros y paginación de catálogo (manga)
-│   │   ├── anime-detalle.js    # Favoritos, seguir, progreso (anime)
-│   │   ├── manga-detalle.js    # Favoritos, seguir, progreso (manga)
+│   │   ├── anime-detalle.js    # Progreso y episodios vistos (anime)
+│   │   ├── manga-detalle.js    # Progreso y capítulos leídos (manga)
 │   │   ├── manga-lector.js     # Visor de PDF (pantalla completa, navegación)
-│   │   ├── novela-detalle.js   # Favoritos, seguir, progreso (novela — por volúmenes)
+│   │   ├── novela-detalle.js   # Progreso y volúmenes leídos (novela — por volúmenes)
 │   │   ├── novela-lector.js    # Visor de PDF (pantalla completa, navegación entre volúmenes)
 │   │   ├── directorio.js       # Filtros combinados y paginación (anime + manga + novela)
 │   │   └── perfil.js           # Modales de editar/eliminar cuenta, filtro y file input custom
@@ -45,10 +47,13 @@ aetheris/
 └── src/                        # Motor interno
     ├── includes/
     │   ├── header.php          # session_start, DB, menú global, inyección de CSS/acento por página
-    │   └── footer.php          # window.BASE_URL, scripts JS y cierre HTML
+    │   ├── footer.php          # window.BASE_URL, scripts JS y cierre HTML
+    │   └── components/
+    │       └── action_buttons.php  # Botón favorito + dropdown de estado (compartido anime/manga/novela)
     ├── actions/
     │   ├── auth/            # logout, etc.
-    │   └── ajax/            # Endpoints JSON para fetch() (ajax_catalogo_animes.php, ajax_catalogo_mangas.php, ajax_filtrar_directorio.php, etc.)
+    │   └── ajax/            # Endpoints JSON para fetch() (ajax_catalogo_animes.php, ajax_catalogo_mangas.php,
+    │                        # ajax_filtrar_directorio.php, acciones-contenido.php, etc.)
     └── admin/               # Panel de administración
         ├── includes/
         │   ├── header.php          # Header propio de admin (reusa global.css + $accent_color de la sección)
@@ -82,7 +87,8 @@ aetheris/
 - **Variables CSS dinámicas** (`--accent-current`) que cambian el color de acento según la sección activa sin duplicar CSS.
 - **Sistema de CSS/JS por página**: cada vista define `$accent_color` y `$page_css` antes de incluir `header.php`, que inyecta automáticamente `global.css` + los CSS propios de esa sección + la variable de acento correspondiente.
 - **Patrón de vista limpia**: cada `.php` ejecuta sus consultas SQL arriba (y su propio manejo de AJAX vía POST antes de imprimir HTML) y pinta HTML puro abajo.
-- **AJAX aislado**: los endpoints que devuelven JSON puro para catálogos filtrados viven en `src/actions/ajax/`; las acciones de usuario (favorito, seguir, progreso) se manejan directo en la vista de detalle antes del `header.php`.
+- **AJAX aislado**: los endpoints que devuelven JSON puro para catálogos filtrados viven en `src/actions/ajax/`. Las acciones de usuario sobre contenido (favorito, estado de seguimiento) están centralizadas en `src/actions/ajax/acciones-contenido.php`, compartido por anime/manga/novela; las acciones específicas de cada tipo (episodio/capítulo/volumen visto) se manejan directo en la vista de detalle antes del `header.php`.
+- **Favorito + estado de seguimiento unificado**: componente compartido (`action_buttons.php` + `action-buttons.css` + `action-buttons.js`) usado por las tres páginas de detalle. Reemplaza los botones sueltos de Seguir/Ver más tarde por un dropdown de 5 estados (Viendo, Por ver, Completado, Pausado, Descartado) sobre la columna `favoritos.estado_seguimiento`.
 - **Animaciones**: carrusel 3D con perspectiva CSS, partículas en canvas.
 - **Protección CSRF**: formularios que modifican o eliminan datos de cuenta llevan un token por sesión (`$_SESSION['csrf_token']`), validado con `hash_equals()` antes de procesar cualquier POST.
 - **Fallback de imágenes**: si una imagen de contenido o de avatar no carga, se reemplaza por un placeholder fijo en `uploads/defaults/` (con `this.onerror=null` para evitar loops si el placeholder tampoco existe).
@@ -114,14 +120,19 @@ mysql -u root -p documentos < aetheris.sql
 
 ## Sistema de colores
 
-| Sección  | Variable CSS         | Color      |
-|----------|----------------------|------------|
-| General  | `--primary-blue`     | `#4a8eff`  |
-| Anime    | `--anime-color`      | `#9d4edd`  |
-| Manga    | `--manga-color`      | `#680015`  |
-| Novela   | `--novela-color`     | `#00ced1`  |
+| Sección  | Variable CSS         | Color      | Variable "light"      | Color claro |
+|----------|----------------------|------------|------------------------|-------------|
+| General  | `--primary-blue`     | `#4a8eff`  | —                       | —           |
+| Anime    | `--anime-color`      | `#b980f5`  | `--anime-light`        | `#dcb3ff`   |
+| Manga    | `--manga-color`      | `#680015`  | `--manga-light`        | `#b3324a`   |
+| Novela   | `--novela-color`     | `#00ced1`  | `--novela-light`       | `#5ee8e8`   |
 
-El color activo se inyecta en cada vista como `--accent-current` en el `<head>`, según el `$accent_color` que defina la página (`anime`, `manga`, `novela` o `general`).
+El color activo se inyecta en cada vista según el `$accent_color` que defina la página (`anime`, `manga`, `novela` o `general`), en tres variables:
+- `--accent-current`: color de acento de la sección (bordes, iconos activos).
+- `--accent-light`: variante clara del mismo color, para texto/iconos que necesitan más contraste sobre fondo oscuro.
+- `--card-bg-current`: fondo de tarjeta propio de la sección (ej. `--manga-card-bg`), usado por componentes compartidos como `action_buttons.php` para no heredar un fondo pensado para otra sección.
+
+
 
 
 
