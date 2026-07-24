@@ -10,6 +10,7 @@
 <script src="js/animations.js"></script>
 <script src="js/search.js"></script>
 <script src="js/ajax-actions.js"></script>
+<script src="js/action-buttons.js"></script>
 
 </body>
 </html>

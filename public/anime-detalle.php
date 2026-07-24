@@ -1,10 +1,10 @@
 <?php
 ob_start();
-ini_set('display_errors', 0);
-error_reporting(0);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 $accent_color = 'anime';
-$page_css     = ['anime.css'];
+$page_css     = ['anime.css', 'action-buttons.css'];
 
 require_once __DIR__ . '/../config/db_config.php';
 
@@ -27,95 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $anime_id = (int)($_POST['anime_id'] ?? 0);
     $action   = $_POST['action'];
 
-    if ($action === 'toggle_favorito') {
-        $check = $conn->prepare("SELECT es_favorito, estado_seguimiento FROM favoritos WHERE user_id=? AND anime_id=?");
-        $check->bind_param("ii", $user_id, $anime_id);
-        $check->execute();
-        $row = $check->get_result()->fetch_assoc();
-        if ($row) {
-            $nuevo = $row['es_favorito'] ? 0 : 1;
-            if ($nuevo === 0 && empty($row['estado_seguimiento'])) {
-                $del = $conn->prepare("DELETE FROM favoritos WHERE user_id=? AND anime_id=?");
-                $del->bind_param("ii", $user_id, $anime_id);
-                $del->execute();
-            } else {
-                $upd = $conn->prepare("UPDATE favoritos SET es_favorito=? WHERE user_id=? AND anime_id=?");
-                $upd->bind_param("iii", $nuevo, $user_id, $anime_id);
-                $upd->execute();
-            }
-            echo json_encode(['success' => true, 'active' => (bool)$nuevo]);
-        } else {
-            $ins = $conn->prepare("INSERT INTO favoritos (user_id, anime_id, es_favorito, estado_seguimiento) VALUES (?,?,1,'')");
-            $ins->bind_param("ii", $user_id, $anime_id);
-            $ins->execute();
-            echo json_encode(['success' => true, 'active' => true]);
-        }
-        exit;
-    }
-
-    if ($action === 'toggle_siguiendo') {
-        $check = $conn->prepare("SELECT es_favorito, estado_seguimiento FROM favoritos WHERE user_id=? AND anime_id=?");
-        $check->bind_param("ii", $user_id, $anime_id);
-        $check->execute();
-        $row = $check->get_result()->fetch_assoc();
-        if ($row) {
-            if ($row['estado_seguimiento'] === 'viendo') {
-                if (!$row['es_favorito']) {
-                    $del = $conn->prepare("DELETE FROM favoritos WHERE user_id=? AND anime_id=?");
-                    $del->bind_param("ii", $user_id, $anime_id);
-                    $del->execute();
-                } else {
-                    $upd = $conn->prepare("UPDATE favoritos SET estado_seguimiento='' WHERE user_id=? AND anime_id=?");
-                    $upd->bind_param("ii", $user_id, $anime_id);
-                    $upd->execute();
-                }
-                echo json_encode(['success' => true, 'active' => false]);
-            } else {
-                $upd = $conn->prepare("UPDATE favoritos SET estado_seguimiento='viendo' WHERE user_id=? AND anime_id=?");
-                $upd->bind_param("ii", $user_id, $anime_id);
-                $upd->execute();
-                echo json_encode(['success' => true, 'active' => true]);
-            }
-        } else {
-            $ins = $conn->prepare("INSERT INTO favoritos (user_id, anime_id, es_favorito, estado_seguimiento) VALUES (?,?,0,'viendo')");
-            $ins->bind_param("ii", $user_id, $anime_id);
-            $ins->execute();
-            echo json_encode(['success' => true, 'active' => true]);
-        }
-        exit;
-    }
-
-    if ($action === 'toggle_ver_mas_tarde') {
-        $check = $conn->prepare("SELECT es_favorito, estado_seguimiento FROM favoritos WHERE user_id=? AND anime_id=?");
-        $check->bind_param("ii", $user_id, $anime_id);
-        $check->execute();
-        $row = $check->get_result()->fetch_assoc();
-        if ($row) {
-            if ($row['estado_seguimiento'] === 'espera') {
-                if (!$row['es_favorito']) {
-                    $del = $conn->prepare("DELETE FROM favoritos WHERE user_id=? AND anime_id=?");
-                    $del->bind_param("ii", $user_id, $anime_id);
-                    $del->execute();
-                } else {
-                    $upd = $conn->prepare("UPDATE favoritos SET estado_seguimiento='' WHERE user_id=? AND anime_id=?");
-                    $upd->bind_param("ii", $user_id, $anime_id);
-                    $upd->execute();
-                }
-                echo json_encode(['success' => true, 'active' => false]);
-            } else {
-                $upd = $conn->prepare("UPDATE favoritos SET estado_seguimiento='espera' WHERE user_id=? AND anime_id=?");
-                $upd->bind_param("ii", $user_id, $anime_id);
-                $upd->execute();
-                echo json_encode(['success' => true, 'active' => true]);
-            }
-        } else {
-            $ins = $conn->prepare("INSERT INTO favoritos (user_id, anime_id, es_favorito, estado_seguimiento) VALUES (?,?,0,'espera')");
-            $ins->bind_param("ii", $user_id, $anime_id);
-            $ins->execute();
-            echo json_encode(['success' => true, 'active' => true]);
-        }
-        exit;
-    }
 
     if ($action === 'toggle_visto') {
         $num_ep = (int)$_POST['numero_episodio'];
@@ -154,7 +65,8 @@ $gq->bind_param("i", $id);
 $gq->execute();
 $generos = $gq->get_result()->fetch_all(MYSQLI_ASSOC);
 
-$fav_activo = $sig_activo = $vmt_activo = false;
+$es_favorito   = false;
+$estado_actual = '';
 $vistos_set = [];
 
 if ($logged_in) {
@@ -166,9 +78,8 @@ if ($logged_in) {
     $fq->execute();
     $frow = $fq->get_result()->fetch_assoc();
     if ($frow) {
-        $fav_activo = (bool)$frow['es_favorito'];
-        $sig_activo = $frow['estado_seguimiento'] === 'viendo';
-        $vmt_activo = $frow['estado_seguimiento'] === 'espera';
+        $es_favorito   = (bool)$frow['es_favorito'];
+        $estado_actual = $frow['estado_seguimiento'] ?? '';
     }
 
     $vq = $conn->prepare("SELECT numero_episodio FROM episodios_vistos WHERE user_id=? AND anime_id=?");
@@ -223,31 +134,11 @@ require_once __DIR__ . '/../src/includes/header.php';
 
             <?php if ($logged_in): ?>
 
-                <div class="action-buttons">
-                    <button class="btn-action <?php echo $fav_activo ? 'active-fav' : ''; ?>"
-                            id="btnFav" onclick="toggleAccion('toggle_favorito','btnFav')">
-                        <img class="btn-icon" id="iconFav"
-                             src="uploads/content/<?php echo $fav_activo ? 'icon_fav_on.png' : 'icon_fav_off.png'; ?>"
-                             alt="">
-                        <span id="lblFav"><?php echo $fav_activo ? 'En favoritos' : 'Favorito'; ?></span>
-                    </button>
-
-                    <button class="btn-action <?php echo $sig_activo ? 'active-sig' : ''; ?>"
-                            id="btnSig" onclick="toggleAccion('toggle_siguiendo','btnSig')">
-                        <img class="btn-icon" id="iconSig"
-                             src="uploads/content/<?php echo $sig_activo ? 'icon_sig_on.png' : 'icon_sig_off.png'; ?>"
-                             alt="">
-                        <span id="lblSig"><?php echo $sig_activo ? 'Siguiendo' : 'Seguir'; ?></span>
-                    </button>
-
-                    <button class="btn-action <?php echo $vmt_activo ? 'active-vmt' : ''; ?>"
-                            id="btnVmt" onclick="toggleAccion('toggle_ver_mas_tarde','btnVmt')">
-                        <img class="btn-icon" id="iconVmt"
-                             src="uploads/content/<?php echo $vmt_activo ? 'icon_vmt_on.png' : 'icon_vmt_off.png'; ?>"
-                             alt="">
-                        <span id="lblVmt"><?php echo $vmt_activo ? 'Guardado' : 'Ver más tarde'; ?></span>
-                    </button>
-                </div>
+                <?php
+                $tipo = 'anime';
+                $content_id = $id;
+                require __DIR__ . '/../src/includes/components/action_buttons.php';
+                ?>
 
                 <?php if ($total_episodios > 0): ?>
                 <div class="progress-section">
@@ -291,7 +182,7 @@ require_once __DIR__ . '/../src/includes/header.php';
                 while ($epi = $episodios->fetch_assoc()):
                     $num       = (int)$epi['numero_episodio'];
                     $visto     = in_array($num, $vistos_set);
-                    $titulo_ep = !empty(trim($epi['titulo'])) ? $epi['titulo'] : $anime['nombre'];
+                    $titulo_ep = !empty(trim((string)($epi['titulo'] ?? ''))) ? $epi['titulo'] : $anime['nombre'];
             ?>
                 <div class="episode-card <?php echo $visto ? 'visto-card' : ''; ?>"
                      id="ep-card-<?php echo $num; ?>">

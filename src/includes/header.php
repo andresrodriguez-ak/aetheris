@@ -18,16 +18,24 @@ if (!isset($accent_color)) {
 switch ($accent_color) {
     case 'anime':
         $css_accent = 'var(--anime-color)';
+        $css_accent_light = 'var(--anime-light)';
+        $css_card_bg = 'var(--anime-card-bg)';
         break;
     case 'manga':
         $css_accent = 'var(--manga-color)';
+        $css_accent_light = 'var(--manga-light)';
+        $css_card_bg = 'var(--manga-card-bg)';
         break;
     case 'novela':
         $css_accent = 'var(--novela-color)';
+        $css_accent_light = 'var(--novela-light)';
+        $css_card_bg = 'var(--novela-card-bg)';
         break;
     case 'general':
     default:
         $css_accent = 'var(--primary-blue)';
+        $css_accent_light = 'var(--primary-blue)';
+        $css_card_bg = 'var(--bg-dark-card)';
         break;
 }
 ?>
@@ -51,6 +59,8 @@ switch ($accent_color) {
     <style>
         :root {
             --accent-current: <?php echo $css_accent; ?>;
+            --accent-light: <?php echo $css_accent_light; ?>;
+            --card-bg-current: <?php echo $css_card_bg; ?>;
         }
     </style>
 </head>
