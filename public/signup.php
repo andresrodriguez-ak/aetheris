@@ -2,8 +2,7 @@
 session_start();
 include '../config/db_config.php';
 
-$error   = '';
-$success = '';
+$error = '';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST['username'] ?? '');
@@ -29,8 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bind_param("sss", $username, $email, $hashed);
 
             if ($stmt->execute()) {
-                $success = 'Registro exitoso. Redirigiendo...';
-                header("refresh:2;url=login.php");
+                $_SESSION['signup_success'] = 'Registro exitoso. Ya podés iniciar sesión.';
+                header("Location: login.php");
+                exit();
             } else {
                 $error = 'Error al registrar el usuario. Intenta nuevamente.';
             }
@@ -41,37 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['signup_error']    = $error;
         $_SESSION['signup_username'] = $username;
         $_SESSION['signup_email']    = $email;
-        header("Location: login.php?r=signup");
-        exit();
     }
-} else {
-    header("Location: login.php?r=signup");
-    exit();
 }
 
-$page_title   = "Registro";
-$accent_color = "general";
-$page_css     = ['auth.css'];
-require_once '../src/includes/header.php';
-?>
-</div></div>
-<main class="auth-main">
-    <div class="auth-box">
-        <div class="auth-panel">
-            <h2>BIENVENIDO</h2>
-            <p>Lugar donde puedes leer tus lecturas favoritas!</p>
-        </div>
-        <div class="auth-slider">
-            <div class="auth-track">
-                <div class="auth-form">
-                    <h2>Registrarse</h2>
-                    <?php if ($success): ?>
-                        <div class="message success"><?php echo htmlspecialchars($success); ?></div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
-<div style="display:none"><div>
-<?php require_once '../src/includes/footer.php'; ?>
+header("Location: login.php?r=signup");
+exit();

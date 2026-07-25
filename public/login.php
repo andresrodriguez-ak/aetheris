@@ -41,7 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 $signup_error    = $_SESSION['signup_error']    ?? '';
 $signup_username = $_SESSION['signup_username'] ?? '';
 $signup_email    = $_SESSION['signup_email']    ?? '';
-unset($_SESSION['signup_error'], $_SESSION['signup_username'], $_SESSION['signup_email']);
+$signup_success  = $_SESSION['signup_success']  ?? '';
+unset($_SESSION['signup_error'], $_SESSION['signup_username'], $_SESSION['signup_email'], $_SESSION['signup_success']);
 
 $show_signup = (isset($_GET['r']) && $_GET['r'] === 'signup') || !empty($signup_error);
 
@@ -72,6 +73,9 @@ require_once '../src/includes/header.php';
 
                 <div class="auth-form">
                     <h2>Iniciar Sesión</h2>
+                    <?php if ($signup_success): ?>
+                        <div class="message success"><?php echo htmlspecialchars($signup_success); ?></div>
+                    <?php endif; ?>
                     <?php if ($error): ?>
                         <div class="message error"><?php echo htmlspecialchars($error); ?></div>
                     <?php endif; ?>
