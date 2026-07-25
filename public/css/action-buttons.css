@@ -29,6 +29,7 @@
     cursor: pointer;
     font-size: 14px;
     font-family: inherit;
+    text-decoration: none;
     transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 

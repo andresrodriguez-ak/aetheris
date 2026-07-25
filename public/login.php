@@ -3,8 +3,7 @@ session_start();
 include '../config/db_config.php';
 
 if (isset($_SESSION['user_id'])) {
-    $redirect = ($_SESSION['role'] === 'admin') ? "subir_contenido.php" : "index.php";
-    header("Location: $redirect");
+    header("Location: index.php");
     exit();
 }
 
@@ -28,8 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION['user_id']  = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role']     = strtolower($user['role']);
-                $redirect = ($_SESSION['role'] === 'admin') ? "subir_contenido.php" : "index.php";
-                header("Location: $redirect");
+                header("Location: index.php");
                 exit();
             } else {
                 $error = 'Credenciales incorrectas.';

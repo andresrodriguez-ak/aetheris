@@ -142,39 +142,37 @@ $q_fav->bind_param("iii", $user_id, $user_id, $user_id);
 $q_fav->execute();
 $lista_favoritos = $q_fav->get_result();
 
-$q_sig = $conn->prepare("
-    (SELECT a.id, a.nombre, a.imagen, 'anime' as tipo
+$q_seg = $conn->prepare("
+    (SELECT a.id, a.nombre, a.imagen, 'anime' as tipo, f.estado_seguimiento as estado
      FROM favoritos f JOIN animes a ON f.anime_id = a.id
-     WHERE f.user_id = ? AND f.estado_seguimiento = 'viendo')
+     WHERE f.user_id = ? AND f.estado_seguimiento != '')
     UNION
-    (SELECT m.id, m.nombre, m.imagen, 'manga' as tipo
+    (SELECT m.id, m.nombre, m.imagen, 'manga' as tipo, f.estado_seguimiento as estado
      FROM favoritos f JOIN mangas m ON f.manga_id = m.id
-     WHERE f.user_id = ? AND f.estado_seguimiento = 'viendo')
+     WHERE f.user_id = ? AND f.estado_seguimiento != '')
     UNION
-    (SELECT n.id, n.nombre, n.imagen, 'novela' as tipo
+    (SELECT n.id, n.nombre, n.imagen, 'novela' as tipo, f.estado_seguimiento as estado
      FROM favoritos f JOIN novelas n ON f.novela_id = n.id
-     WHERE f.user_id = ? AND f.estado_seguimiento = 'viendo')
+     WHERE f.user_id = ? AND f.estado_seguimiento != '')
 ");
-$q_sig->bind_param("iii", $user_id, $user_id, $user_id);
-$q_sig->execute();
-$lista_siguiendo = $q_sig->get_result();
+$q_seg->bind_param("iii", $user_id, $user_id, $user_id);
+$q_seg->execute();
+$res_seg = $q_seg->get_result();
 
-$q_vmt = $conn->prepare("
-    (SELECT a.id, a.nombre, a.imagen, 'anime' as tipo
-     FROM favoritos f JOIN animes a ON f.anime_id = a.id
-     WHERE f.user_id = ? AND f.estado = 'espera')
-    UNION
-    (SELECT m.id, m.nombre, m.imagen, 'manga' as tipo
-     FROM favoritos f JOIN mangas m ON f.manga_id = m.id
-     WHERE f.user_id = ? AND f.estado = 'espera')
-    UNION
-    (SELECT n.id, n.nombre, n.imagen, 'novela' as tipo
-     FROM favoritos f JOIN novelas n ON f.novela_id = n.id
-     WHERE f.user_id = ? AND f.estado = 'espera')
-");
-$q_vmt->bind_param("iii", $user_id, $user_id, $user_id);
-$q_vmt->execute();
-$lista_vmt = $q_vmt->get_result();
+$estados_labels = [
+    'viendo'      => 'Viendo',
+    'por_ver'     => 'Por ver',
+    'completado'  => 'Completado',
+    'pausado'     => 'Pausado',
+    'descartado'  => 'Descartado',
+];
+
+$por_estado = array_fill_keys(array_keys($estados_labels), []);
+while ($row = $res_seg->fetch_assoc()) {
+    if (isset($por_estado[$row['estado']])) {
+        $por_estado[$row['estado']][] = $row;
+    }
+}
 
 $progreso = [];
 $pq = $conn->prepare("
@@ -251,11 +249,12 @@ require_once __DIR__ . '/../src/includes/header.php';
             <button class="filter-btn" onclick="filtrar('novela', this)">Novelas</button>
         </div>
 
+        <?php foreach ($estados_labels as $estado_key => $estado_label): ?>
         <div class="Section">
-            <h2 class="SectionTitle">Actualmente Viendo</h2>
+            <h2 class="SectionTitle"><?php echo htmlspecialchars($estado_label); ?></h2>
             <div class="Grid">
-                <?php if($lista_siguiendo->num_rows > 0):
-                    while($item = $lista_siguiendo->fetch_assoc()): ?>
+                <?php if (!empty($por_estado[$estado_key])):
+                    foreach ($por_estado[$estado_key] as $item): ?>
                     <a href="<?php echo linkTipo($item['tipo'], $item['id']); ?>"
                        class="Card item-type" data-type="<?php echo $item['tipo']; ?>"
                        style="--item-color:<?php echo colorVar($item['tipo']); ?>">
@@ -266,38 +265,18 @@ require_once __DIR__ . '/../src/includes/header.php';
                         </div>
                         <p><?php echo htmlspecialchars($item['nombre']); ?></p>
                     </a>
-                <?php endwhile; else: ?>
+                <?php endforeach; else: ?>
                     <p class="empty-txt">Vacío</p>
                 <?php endif; ?>
             </div>
         </div>
+        <?php endforeach; ?>
 
         <div class="Section">
             <h2 class="SectionTitle">Mis Favoritos</h2>
             <div class="Grid">
                 <?php if($lista_favoritos->num_rows > 0):
                     while($item = $lista_favoritos->fetch_assoc()): ?>
-                    <a href="<?php echo linkTipo($item['tipo'], $item['id']); ?>"
-                       class="Card item-type" data-type="<?php echo $item['tipo']; ?>"
-                       style="--item-color:<?php echo colorVar($item['tipo']); ?>">
-                        <div class="CardImgWrap">
-                            <img src="<?php echo htmlspecialchars($item['imagen']); ?>"
-                                 alt="<?php echo htmlspecialchars($item['nombre']); ?>"
-                                 onerror="this.onerror=null;this.src='<?php echo DEFAULT_CONTENT_IMG; ?>';this.classList.add('img-placeholder')">
-                        </div>
-                        <p><?php echo htmlspecialchars($item['nombre']); ?></p>
-                    </a>
-                <?php endwhile; else: ?>
-                    <p class="empty-txt">Vacío</p>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <div class="Section">
-            <h2 class="SectionTitle">Ver más tarde</h2>
-            <div class="Grid">
-                <?php if($lista_vmt->num_rows > 0):
-                    while($item = $lista_vmt->fetch_assoc()): ?>
                     <a href="<?php echo linkTipo($item['tipo'], $item['id']); ?>"
                        class="Card item-type" data-type="<?php echo $item['tipo']; ?>"
                        style="--item-color:<?php echo colorVar($item['tipo']); ?>">
