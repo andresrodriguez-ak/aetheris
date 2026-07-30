@@ -75,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             $upd = $conn->prepare("UPDATE users SET username=?, email=?, profile_image=? WHERE id=?");
             $upd->bind_param("sssi", $new_username, $new_email, $profile_image, $user_id);
             if ($upd->execute()) {
-                $_SESSION['username'] = $new_username;
+                $_SESSION['username']      = $new_username;
+                $_SESSION['profile_image'] = $profile_image;
                 header("Location: perfil.php?success=1");
                 exit();
             } else {
@@ -190,12 +191,6 @@ $pq->bind_param("i", $user_id);
 $pq->execute();
 $pr = $pq->get_result();
 while ($row = $pr->fetch_assoc()) $progreso[] = $row;
-
-function avatarUrl($img) {
-    if (empty($img)) return 'uploads/profiles/default.png';
-    if (strpos($img, 'uploads/') === 0) return $img;
-    return 'uploads/profiles/' . $img;
-}
 
 function linkTipo($tipo, $id) {
     switch ($tipo) {

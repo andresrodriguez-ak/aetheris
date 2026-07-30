@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($username) || empty($password)) {
         $error = 'Todos los campos son obligatorios.';
     } else {
-        $stmt = $conn->prepare("SELECT id, username, password, role FROM users WHERE username = ?");
+        $stmt = $conn->prepare("SELECT id, username, password, role, profile_image FROM users WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -24,9 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($result->num_rows === 1) {
             $user = $result->fetch_assoc();
             if (password_verify($password, $user['password'])) {
-                $_SESSION['user_id']  = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['role']     = strtolower($user['role']);
+                $_SESSION['user_id']       = $user['id'];
+                $_SESSION['username']      = $user['username'];
+                $_SESSION['role']          = strtolower($user['role']);
+                $_SESSION['profile_image'] = $user['profile_image'];
                 header("Location: index.php");
                 exit();
             } else {

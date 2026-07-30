@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ─── 1. BUSCADOR DEL HEADER ───
     var searchInput = document.getElementById('m-search');
-    var searchBtn   = document.querySelector('.menu-search button');
+    var searchBtn   = document.querySelector('.nav-search button');
 
     if (searchInput) {
         searchInput.addEventListener('keypress', function (e) {

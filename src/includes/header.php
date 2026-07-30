@@ -9,6 +9,7 @@ require_once __DIR__ . '/../../config/db_config.php';
 $logged_in = isset($_SESSION['user_id']);
 $username  = $logged_in ? $_SESSION['username'] : '';
 $is_admin  = $logged_in && ($_SESSION['role'] ?? '') === 'admin';
+$avatar    = $logged_in ? avatarUrl($_SESSION['profile_image'] ?? null) : '';
 
 
 if (!isset($accent_color)) {
@@ -49,6 +50,7 @@ switch ($accent_color) {
     <link rel="icon" href="uploads/aetheris.png" type="image/x-icon">
     
     <link rel="stylesheet" href="css/global.css">
+    <script src="js/main.js" defer></script>
 
     <?php if (!empty($page_css)): ?>
         <?php foreach ($page_css as $css_file): ?>
@@ -67,36 +69,46 @@ switch ($accent_color) {
 <body>
 
 <header>
-    <div class="header-left">
-        <a href="index.php" class="logo">Aetheris</a>
+    <div class="nav-left">
+        <a href="index.php" class="logo">AETHERIS</a>
     </div>
-    <div class="header-right">
-        <div class="menu">
-            <button class="menu-button" id="menuBtn">Menú ▼</button>
-            <div class="menu-content" id="menuContent">
-                <div class="menu-search">
-                    <input type="text" id="m-search" placeholder="Buscar..." autocomplete="off"
-                           value="<?php echo htmlspecialchars($search_query ?? ''); ?>">
-                    <button type="button">
-                        <img src="uploads/content/icon_search.png" alt="Buscar">
-                    </button>
-                </div>
-                <a href="anime-home.php"><img src="uploads/content/anni.gif"> Anime</a>
-                <a href="manga-home.php"><img src="uploads/content/icon_manga.gif"> Manga</a>
-                <a href="novela-home.php"><img src="uploads/content/icon_novelas.gif"> Novelas</a>
-                <a href="directorio.php"><img src="uploads/content/icon_folder.gif"> Directorio</a>
-                <?php if($logged_in): ?>
-                    <a href="perfil.php">
-                        <img src="uploads/content/user.png"> Mi Perfil (<?php echo htmlspecialchars($username); ?>)
-                    </a>
-                    <a href="<?php echo BASE_URL; ?>src/actions/auth/logout.php">
-                        <img src="uploads/content/salir.png"> Salir
-                    </a>
-                <?php else: ?>
-                    <a href="login.php"><img src="uploads/content/user.png"> Iniciar Sesión</a>
-                <?php endif; ?>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-links" id="navLinks">
+        <a href="anime-home.php" class="nav-link"><img src="uploads/content/anni.gif" alt=""> Anime</a>
+        <a href="manga-home.php" class="nav-link"><img src="uploads/content/icon_manga.gif" alt=""> Manga</a>
+        <a href="novela-home.php" class="nav-link"><img src="uploads/content/icon_novelas.gif" alt=""> Novelas</a>
+        <a href="directorio.php" class="nav-link"><img src="uploads/content/icon_folder.gif" alt=""> Directorio</a>
+
+        <form class="nav-search" action="<?php echo BASE_URL; ?>busqueda.php" method="get">
+            <input type="text" name="q" id="m-search" placeholder="Buscar..." autocomplete="off"
+                   value="<?php echo htmlspecialchars($search_query ?? ''); ?>">
+            <button type="submit" aria-label="Buscar">
+                <img src="uploads/content/icon_search.png" alt="">
+            </button>
+        </form>
+    </div>
+
+    <div class="user-menu" id="userMenu">
+        <?php if ($logged_in): ?>
+            <button class="user-menu-trigger" id="userMenuBtn" aria-expanded="false">
+                <img src="<?php echo htmlspecialchars($avatar); ?>" alt="<?php echo htmlspecialchars($username); ?>"
+                     class="user-avatar" onerror="this.onerror=null;this.src='uploads/profiles/default.png'">
+                <span class="user-name"><?php echo htmlspecialchars($username); ?></span>
+            </button>
+            <div class="user-menu-content" id="userMenuContent">
+                <a href="perfil.php"><img src="uploads/content/user.png" alt=""> Mi Perfil</a>
+                <a href="perfil.php?ajustes=1"><img src="uploads/content/icon_folder.gif" alt=""> Ajustes</a>
+                <a href="<?php echo BASE_URL; ?>src/actions/auth/logout.php"><img src="uploads/content/salir.png" alt=""> Salir</a>
             </div>
-        </div>
+        <?php else: ?>
+            <a href="login.php" class="user-menu-trigger user-menu-guest" aria-label="Iniciar sesión">
+                <img src="uploads/content/user.png" alt="Iniciar sesión" class="user-avatar">
+            </a>
+        <?php endif; ?>
     </div>
 </header>
 
