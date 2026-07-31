@@ -1,7 +1,7 @@
 <?php
 /* ═══════════════════════════════════════════════════════════════
    Aetheris — ajax_catalogo_animes.php
-   Filtra y pagina el catálogo de animes (usado por anime-home.js). Devuelve HTML directo.
+   Filtra y pagina el catálogo de animes. Devuelve HTML directo.
    ═══════════════════════════════════════════════════════════════ */
 ini_set('display_errors', 0);
 error_reporting(0);
@@ -30,12 +30,12 @@ if ($status !== '') {
 }
 
 if (!empty($genres)) {
+    // OR: alcanza con al menos uno de los géneros seleccionados
     $placeholders = implode(',', array_fill(0, count($genres), '?'));
-    $conditions[] = "a.id IN (
-        SELECT anime_id FROM anime_generos
-        WHERE genero_id IN ($placeholders)
-        GROUP BY anime_id
-        HAVING COUNT(DISTINCT genero_id) = " . count($genres) . "
+    $conditions[] = "EXISTS (
+        SELECT 1 FROM anime_generos gx
+        WHERE gx.anime_id = a.id
+          AND gx.genero_id IN ($placeholders)
     )";
     foreach ($genres as $g) { $params[] = $g; $types .= 'i'; }
 }
@@ -84,31 +84,24 @@ if ($result->num_rows === 0) {
     exit;
 }
 
-echo '<div class="anime-grid">';
+echo '<div class="List-Animes">';
 while ($anime = $result->fetch_assoc()):
     $imagen   = htmlspecialchars($anime['imagen'] ?? '');
     $nombre   = htmlspecialchars($anime['nombre']);
     $estado   = $anime['estado'] ?? '';
-    $generos  = htmlspecialchars($anime['generos'] ?? 'Sin géneros');
     $id       = (int)$anime['id'];
-    $clase_estado = match($estado) {
-        'En emisión'    => 'emision',
-        'Finalizado'    => 'finalizado',
-        'Próximamente'  => 'proximo',
-        default         => ''
-    };
 ?>
-    <div class="anime-card">
+    <div class="Anime-Card">
         <a href="anime-detalle.php?id=<?php echo $id; ?>">
-            <div class="anime-cover-wrapper">
-                <img class="anime-cover" src="<?php echo $imagen; ?>" alt="<?php echo $nombre; ?>" loading="lazy">
+            <div class="Anime-Image">
+                <img src="<?php echo $imagen; ?>" alt="<?php echo $nombre; ?>" loading="lazy">
+                <span class="Type-Badge" data-type="anime">Anime</span>
                 <?php if ($estado): ?>
-                    <span class="anime-status-tag <?php echo $clase_estado; ?>"><?php echo htmlspecialchars($estado); ?></span>
+                    <span class="Status-Badge" data-status="<?php echo htmlspecialchars($estado); ?>"><?php echo htmlspecialchars($estado); ?></span>
                 <?php endif; ?>
             </div>
-            <div class="anime-info">
-                <h3 class="anime-name"><?php echo $nombre; ?></h3>
-                <div class="anime-genres"><?php echo $generos; ?></div>
+            <div class="Anime-Info">
+                <h3 class="Anime-Title"><?php echo $nombre; ?></h3>
             </div>
         </a>
     </div>
@@ -124,28 +117,28 @@ if ($totalPaginas > 1):
     <div class="pagination-info">Página <?php echo $pagina; ?> de <?php echo $totalPaginas; ?> — <?php echo $total; ?> resultados</div>
     <div class="pagination">
         <?php if ($pagina > 1): ?>
-            <button class="pagination-button" onclick="loadPage(<?php echo $pagina - 1; ?>)">‹ Anterior</button>
+            <button class="pagination-button" onclick="loadCatalogPage(<?php echo $pagina - 1; ?>)">‹ Anterior</button>
         <?php endif; ?>
 
         <?php
         $start = max(1, $pagina - 2);
         $end   = min($totalPaginas, $pagina + 2);
         if ($start > 1) {
-            echo '<button class="pagination-button" onclick="loadPage(1)">1</button>';
+            echo '<button class="pagination-button" onclick="loadCatalogPage(1)">1</button>';
             if ($start > 2) echo '<span class="pagination-dots">…</span>';
         }
         for ($i = $start; $i <= $end; $i++) {
             $active = $i === $pagina ? ' active' : '';
-            echo "<button class=\"pagination-button{$active}\" onclick=\"loadPage({$i})\">{$i}</button>";
+            echo "<button class=\"pagination-button{$active}\" onclick=\"loadCatalogPage({$i})\">{$i}</button>";
         }
         if ($end < $totalPaginas) {
             if ($end < $totalPaginas - 1) echo '<span class="pagination-dots">…</span>';
-            echo "<button class=\"pagination-button\" onclick=\"loadPage({$totalPaginas})\">{$totalPaginas}</button>";
+            echo "<button class=\"pagination-button\" onclick=\"loadCatalogPage({$totalPaginas})\">{$totalPaginas}</button>";
         }
         ?>
 
         <?php if ($pagina < $totalPaginas): ?>
-            <button class="pagination-button" onclick="loadPage(<?php echo $pagina + 1; ?>)">Siguiente ›</button>
+            <button class="pagination-button" onclick="loadCatalogPage(<?php echo $pagina + 1; ?>)">Siguiente ›</button>
         <?php endif; ?>
     </div>
 </div>

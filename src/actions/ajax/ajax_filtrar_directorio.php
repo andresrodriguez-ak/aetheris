@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../../config/db_config.php';
 // Parámetros de filtrado
 $type   = $_GET['type']   ?? '';
 $status = $_GET['status'] ?? '';
-$genres = $_GET['genre']  ?? [];   // array multi-select
+$genres = $_GET['genre']  ?? [];
 $search = $_GET['search'] ?? '';
 $pagina = max(1, intval($_GET['pagina'] ?? 1));
 $porPagina = 20;
@@ -142,28 +142,28 @@ if ($result->num_rows > 0) {
         echo '<div class="pagination">';
 
         if ($pagina > 1)
-            echo '<button class="pagination-button" onclick="loadDirectoryPage(' . ($pagina - 1) . ')">«</button>';
+            echo '<button class="pagination-button" onclick="loadCatalogPage(' . ($pagina - 1) . ')">«</button>';
 
         $inicio = max(1, $pagina - 2);
         $fin    = min($paginas, $pagina + 2);
 
         if ($inicio > 1) {
-            echo '<button class="pagination-button" onclick="loadDirectoryPage(1)">1</button>';
+            echo '<button class="pagination-button" onclick="loadCatalogPage(1)">1</button>';
             if ($inicio > 2) echo '<span class="pagination-dots">...</span>';
         }
 
         for ($i = $inicio; $i <= $fin; $i++) {
             $active = ($i == $pagina) ? ' active' : '';
-            echo '<button class="pagination-button' . $active . '" onclick="loadDirectoryPage(' . $i . ')">' . $i . '</button>';
+            echo '<button class="pagination-button' . $active . '" onclick="loadCatalogPage(' . $i . ')">' . $i . '</button>';
         }
 
         if ($fin < $paginas) {
             if ($fin < $paginas - 1) echo '<span class="pagination-dots">...</span>';
-            echo '<button class="pagination-button" onclick="loadDirectoryPage(' . $paginas . ')">' . $paginas . '</button>';
+            echo '<button class="pagination-button" onclick="loadCatalogPage(' . $paginas . ')">' . $paginas . '</button>';
         }
 
         if ($pagina < $paginas)
-            echo '<button class="pagination-button" onclick="loadDirectoryPage(' . ($pagina + 1) . ')">»</button>';
+            echo '<button class="pagination-button" onclick="loadCatalogPage(' . ($pagina + 1) . ')">»</button>';
 
         echo '</div></div>';
     }

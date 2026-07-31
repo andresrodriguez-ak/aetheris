@@ -1,6 +1,6 @@
 <?php
 $accent_color = 'general';
-$page_css     = ['directorio.css'];
+$page_css     = ['catalogo.css'];
 
 require_once __DIR__ . '/../config/db_config.php';
 
@@ -91,6 +91,16 @@ require_once __DIR__ . '/../src/includes/header.php';
             <div class="loading">Cargando contenido...</div>
         </div>
 
-<script src="js/directorio.js"></script>
+<script src="js/catalogo-filtros.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        initCatalogFilters({
+            endpoint:           'src/actions/ajax/ajax_filtrar_directorio.php',
+            resultsContainerId: 'directory-results',
+            hasTypeFilter:      true,
+            readUrlParams:      true
+        });
+    });
+</script>
 
 <?php require_once __DIR__ . '/../src/includes/footer.php'; ?>

@@ -52,240 +52,92 @@ header .menu a.menu-button:hover {
     box-shadow: 0 0 14px rgba(157, 78, 221, 0.5) !important;
 }
 
-/* Filtros y Buscador  */
-.filter-container {
+/* Filtros y tarjetas — tema morado sobre el markup compartido de catalogo.css */
+.anime-container .Filters {
     background: var(--anime-card-bg) !important;
     border: 1px solid rgba(157, 78, 221, 0.4) !important;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: flex-end;
 }
 
-.filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1;
-    min-width: 200px;
+.anime-container .Filter-Input,
+.anime-container .cs-selected,
+.anime-container .ms-trigger {
+    background-color: #0f0f1a !important;
+    border-color: rgba(157, 78, 221, 0.5) !important;
 }
 
-.filter-group label {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--light-purple) !important; 
-}
-
-.filter-input {
-    background: #0f0f1a !important;
-    border: 1px solid rgba(157, 78, 221, 0.5) !important;
-    color: #ffffff !important; /* Letras completamente blancas */
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    width: 100%;
-    transition: border-color 0.2s;
-}
-
-.filter-input:focus {
-    border-color: var(--light-purple) !important;
-    outline: none;
-}
-
-/* Custom Select Dropdown */
-.cs-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.cs-select {
-    background: #0f0f1a !important;
-    border: 1px solid rgba(157, 78, 221, 0.5) !important;
-    color: #ffffff !important; 
-    padding: 10px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-}
-
-.cs-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: #141424 !important;
-    border: 1px solid rgba(157, 78, 221, 0.6) !important;
-    border-radius: 8px;
-    margin-top: 5px;
-    max-height: 240px;
-    overflow-y: auto;
-    z-index: 100;
-    display: none;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.7);
-}
-
-.cs-dropdown.open {
-    display: block;
-}
-
-.cs-option {
-    padding: 10px 14px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #ffffff !important; 
-    transition: background 0.2s;
-}
-
-.cs-option:hover {
-    background: #251f35 !important;
-}
-
-.cs-option.selected {
-    background: var(--primary-purple) !important;
-    color: #ffffff !important;
-}
-
-/* Multi-select de Géneros */
-.ms-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 6px;
-    background: #0f0f1a !important;
-    border: 1px solid rgba(157, 78, 221, 0.5) !important;
-    border-radius: 8px;
-    min-height: 42px;
-}
-
-.ms-tag {
-    background: var(--primary-purple) !important;
-    color: #ffffff !important;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 600;
-}
-
-.ms-tag-remove {
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.btn-reset {
-    background: #251f35 !important;
-    border: 1px solid rgba(157, 78, 221, 0.6) !important;
-    color: #ffffff !important;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    height: 42px;
-    transition: all 0.2s;
-}
-
-.btn-reset:hover {
-    background: var(--primary-purple) !important;
-}
-
-/* Resultados de Anime */
-.anime-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
-    margin-bottom: 40px;
-}
-
-.anime-card {
-    background: var(--anime-card-bg) !important;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    border: 1px solid rgba(157, 78, 221, 0.2) !important;
-}
-
-.anime-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(157, 78, 221, 0.5);
+.anime-container .Filter-Input:focus,
+.anime-container .custom-select.open .cs-selected,
+.anime-container .multi-select.open .ms-trigger {
     border-color: var(--primary-purple) !important;
 }
 
-.anime-card a {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    color: inherit;
-    text-decoration: none;
+.anime-container .custom-select::after,
+.anime-container .multi-select::after {
+    color: var(--primary-purple) !important;
 }
 
-.anime-cover-wrapper {
-    position: relative;
-    aspect-ratio: 2/3;
-    width: 100%;
+.anime-container .cs-options,
+.anime-container .ms-dropdown {
+    background: #141424 !important;
+    border-color: var(--primary-purple) !important;
 }
 
-.anime-cover {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.anime-container .cs-options::-webkit-scrollbar-thumb,
+.anime-container .ms-list::-webkit-scrollbar-thumb {
+    background: var(--primary-purple) !important;
 }
 
-.anime-status-tag {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #ffffff !important;
-    background: rgba(0,0,0,0.8);
+.anime-container .cs-option:hover,
+.anime-container .ms-item:hover {
+    background: rgba(157, 78, 221, 0.25) !important;
 }
 
-.anime-status-tag.emision { border-left: 3px solid #00c4a0 !important; }
-.anime-status-tag.finalizado { border-left: 3px solid var(--primary-purple) !important; }
-
-.anime-info {
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+.anime-container .cs-option.selected {
+    color: var(--primary-purple) !important;
 }
 
-.anime-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #ffffff !important;
-    margin: 0 0 8px 0;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    height: 38px;
+.anime-container .ms-item.checked .ms-checkbox {
+    background: var(--primary-purple) !important;
+    border-color: var(--primary-purple) !important;
 }
 
-.anime-genres {
-    font-size: 11px;
-    color: #b0a0c8 !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.anime-container .ms-search:focus {
+    border-color: var(--primary-purple) !important;
+}
+
+.anime-container .ms-clear {
+    color: var(--light-purple) !important;
+}
+
+.anime-container .ms-tag {
+    background: var(--primary-purple) !important;
+}
+
+.anime-container .reset-btn {
+    background: #251f35 !important;
+    border: 1px solid rgba(157, 78, 221, 0.6) !important;
+}
+
+.anime-container .reset-btn:hover {
+    background: var(--primary-purple) !important;
+}
+
+.anime-container .Anime-Card {
+    background: var(--anime-card-bg) !important;
+    border-color: rgba(157, 78, 221, 0.2) !important;
+}
+
+.anime-container .Anime-Card:hover {
+    box-shadow: 0 8px 20px rgba(157, 78, 221, 0.5) !important;
+    border-color: var(--primary-purple) !important;
+}
+
+.anime-container .Type-Badge[data-type="anime"] {
+    background: var(--primary-purple) !important;
+}
+
+.anime-container .Anime-Card:hover .Anime-Title {
+    color: var(--light-purple) !important;
 }
 
 /* Componente de Paginación */

@@ -1,8 +1,7 @@
 /* ══════════════════════════════════════════════════════════════════════════
-   AETHERIS — DIRECTORIO.CSS
-   Estilos específicos del Directorio general: filtros + grid de resultados.
-   Usa los colores globales (--primary-blue, --card-bg, etc. de global.css),
-   sin paleta propia.
+   AETHERIS — CATALOGO.CSS
+   Filtros y grid de resultados compartidos entre directorio.php,
+   anime-home.php y catálogos futuros. Usa los colores globales de global.css.
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Filtros ── */
