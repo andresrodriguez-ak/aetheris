@@ -45,233 +45,93 @@ header .menu a.menu-button:hover {
     box-shadow: 0 0 14px rgba(104, 0, 21, 0.5) !important;
 }
 
-/* ── Filtros y Buscador ── */
-.filter-container {
+/* ── Filtros y tarjetas — tema manga sobre el markup compartido de catalogo.css ── */
+.manga-container .Filters {
     background: var(--manga-card-bg) !important;
     border: 1px solid rgba(104, 0, 21, 0.4) !important;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: flex-end;
 }
 
-.filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1;
-    min-width: 200px;
+.manga-container .Filter-Input,
+.manga-container .cs-selected,
+.manga-container .ms-trigger {
+    background-color: #0a0405 !important;
+    border-color: rgba(104, 0, 21, 0.5) !important;
 }
 
-.filter-group label {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--manga-light) !important;
-}
-
-.filter-input {
-    background: #0a0405 !important;
-    border: 1px solid rgba(104, 0, 21, 0.5) !important;
-    color: #ffffff !important;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    width: 100%;
-    transition: border-color 0.2s;
-}
-
-.filter-input:focus {
-    border-color: var(--manga-light) !important;
-    outline: none;
-}
-
-/* ── Custom Select Dropdown ── */
-.cs-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.cs-select {
-    background: #0a0405 !important;
-    border: 1px solid rgba(104, 0, 21, 0.5) !important;
-    color: #ffffff !important;
-    padding: 10px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-}
-
-.cs-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: #170809 !important;
-    border: 1px solid rgba(104, 0, 21, 0.6) !important;
-    border-radius: 8px;
-    margin-top: 5px;
-    max-height: 240px;
-    overflow-y: auto;
-    z-index: 100;
-    display: none;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.7);
-}
-
-.cs-dropdown.open {
-    display: block;
-}
-
-.cs-option {
-    padding: 10px 14px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #ffffff !important;
-    transition: background 0.2s;
-}
-
-.cs-option:hover {
-    background: #21090c !important;
-}
-
-.cs-option.selected {
-    background: var(--manga-color) !important;
-    color: #ffffff !important;
-}
-
-/* ── Tags de géneros seleccionados ── */
-.ms-tag {
-    background: var(--manga-color) !important;
-    color: #ffffff !important;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 600;
-}
-
-.ms-tag-remove {
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.btn-reset {
-    background: #21090c !important;
-    border: 1px solid rgba(104, 0, 21, 0.6) !important;
-    color: #ffffff !important;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    height: 42px;
-    transition: all 0.2s;
-}
-
-.btn-reset:hover {
-    background: var(--manga-color) !important;
-}
-
-/* ── Resultados de Manga ── */
-.manga-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
-    margin-bottom: 40px;
-}
-
-.manga-card {
-    background: var(--manga-card-bg) !important;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    border: 1px solid rgba(104, 0, 21, 0.2) !important;
-}
-
-.manga-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(104, 0, 21, 0.5);
+.manga-container .Filter-Input:focus,
+.manga-container .custom-select.open .cs-selected,
+.manga-container .multi-select.open .ms-trigger {
     border-color: var(--manga-color) !important;
 }
 
-.manga-card a {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    color: inherit;
-    text-decoration: none;
+.manga-container .custom-select::after,
+.manga-container .multi-select::after {
+    color: var(--manga-color) !important;
 }
 
-.manga-cover-wrapper {
-    position: relative;
-    aspect-ratio: 2/3;
-    width: 100%;
+.manga-container .cs-options,
+.manga-container .ms-dropdown {
+    background: #170809 !important;
+    border-color: var(--manga-color) !important;
 }
 
-.manga-cover {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.manga-container .cs-options::-webkit-scrollbar-thumb,
+.manga-container .ms-list::-webkit-scrollbar-thumb {
+    background: var(--manga-color) !important;
 }
 
-.manga-status-tag {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #ffffff !important;
-    background: rgba(0,0,0,0.8);
+.manga-container .cs-option:hover,
+.manga-container .ms-item:hover {
+    background: rgba(104, 0, 21, 0.35) !important;
 }
 
-.manga-status-tag.emision      { border-left: 3px solid #00c4a0 !important; }
-.manga-status-tag.finalizado   { border-left: 3px solid var(--manga-color) !important; }
-.manga-status-tag.proximamente { border-left: 3px solid #FF9800 !important; }
-
-.manga-info {
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+.manga-container .cs-option.selected {
+    color: var(--manga-color) !important;
 }
 
-.manga-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #ffffff !important;
-    margin: 0 0 8px 0;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    height: 38px;
+.manga-container .ms-item.checked .ms-checkbox {
+    background: var(--manga-color) !important;
+    border-color: var(--manga-color) !important;
 }
 
-.manga-genres {
-    font-size: 11px;
-    color: #c8a0a8 !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.manga-container .ms-search:focus {
+    border-color: var(--manga-color) !important;
 }
 
-/* ── Paginación ── */
+.manga-container .ms-clear {
+    color: var(--manga-light) !important;
+}
+
+.manga-container .ms-tag {
+    background: var(--manga-color) !important;
+}
+
+.manga-container .reset-btn {
+    background: #21090c !important;
+    border: 1px solid rgba(104, 0, 21, 0.6) !important;
+}
+
+.manga-container .reset-btn:hover {
+    background: var(--manga-color) !important;
+}
+
+.manga-container .Anime-Card {
+    background: var(--manga-card-bg) !important;
+    border-color: rgba(104, 0, 21, 0.2) !important;
+}
+
+.manga-container .Anime-Card:hover {
+    box-shadow: 0 8px 20px rgba(104, 0, 21, 0.5) !important;
+    border-color: var(--manga-color) !important;
+}
+
+.manga-container .Type-Badge[data-type="manga"] {
+    background: var(--manga-color) !important;
+}
+
+.manga-container .Anime-Card:hover .Anime-Title {
+    color: var(--manga-light) !important;
+}
 .pagination-container {
     display: flex;
     flex-direction: column;
@@ -324,11 +184,8 @@ header .menu a.menu-button:hover {
 .error       { color: #ff4d4d !important; padding: 40px; text-align: center; font-weight: 600; }
 .no-results  { color: #c8a0a8 !important; padding: 40px; text-align: center; }
 
-/* ── Responsive (catálogo) ── */
-@media (max-width: 600px) {
-    .filter-container { flex-direction: column; align-items: stretch; }
-    .manga-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-}
+/* ── Responsive (catálogo) ──
+   .Filters y .List-Animes ya se resuelven en catalogo.css */
 
 /* ══════════════════════════════════════════════════════════════════════════
    Sección Manga: Detalle y Capítulos
