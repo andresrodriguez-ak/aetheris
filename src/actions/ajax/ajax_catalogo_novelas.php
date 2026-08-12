@@ -1,4 +1,8 @@
 <?php
+/* ═══════════════════════════════════════════════════════════════
+   Aetheris — ajax_catalogo_novelas.php
+   Filtra y pagina el catálogo de novelas. Devuelve HTML directo.
+   ═══════════════════════════════════════════════════════════════ */
 require_once __DIR__ . '/../../../config/db_config.php';
 
 // Parámetros de filtrado con valores por defecto
@@ -30,6 +34,8 @@ if (!empty($status)) {
 }
 
 if (!empty($genres)) {
+    // OR: alcanza con al menos uno de los géneros seleccionados
+    // (el LEFT JOIN + WHERE ya filtra así, igual que anime/manga/directorio)
     $placeholders = implode(',', array_fill(0, count($genres), '?'));
     $conditions[] = "ag.genero_id IN ($placeholders)";
     foreach ($genres as $g) {
@@ -83,22 +89,22 @@ $totalPaginas = ceil($totalNovelas / $porPagina);
 
 // Generar HTML de resultados
 if ($result->num_rows > 0) {
-    echo '<div class="novela-grid">';
+    echo '<div class="List-Animes">';
     while ($novela = $result->fetch_assoc()) {
-        $estadoClass = 'proximamente';
-        if ($novela['estado'] === 'En emisión') $estadoClass = 'emision';
-        if ($novela['estado'] === 'Finalizado') $estadoClass = 'finalizado';
+        $estado = $novela['estado'] ?? '';
 
         echo '
-        <div class="novela-card">
+        <div class="Anime-Card">
             <a href="novela-detalle.php?id=' . (int)$novela['id'] . '">
-                <div class="novela-cover-wrapper">
-                    <img src="' . htmlspecialchars($novela['imagen']) . '" alt="' . htmlspecialchars($novela['nombre']) . '" class="novela-cover" loading="lazy">
-                    <span class="novela-status-tag ' . $estadoClass . '">' . htmlspecialchars($novela['estado']) . '</span>
-                </div>
-                <div class="novela-info">
-                    <h3 class="novela-name">' . htmlspecialchars($novela['nombre']) . '</h3>
-                    <div class="novela-genres">' . htmlspecialchars($novela['generos'] ?? '') . '</div>
+                <div class="Anime-Image">
+                    <img src="' . htmlspecialchars($novela['imagen']) . '" alt="' . htmlspecialchars($novela['nombre']) . '" loading="lazy">
+                    <span class="Type-Badge" data-type="novela">Novela</span>';
+        if (!empty($estado)) {
+            echo '<span class="Status-Badge" data-status="' . htmlspecialchars($estado) . '">' . htmlspecialchars($estado) . '</span>';
+        }
+        echo '      </div>
+                <div class="Anime-Info">
+                    <h3 class="Anime-Title">' . htmlspecialchars($novela['nombre']) . '</h3>
                 </div>
             </a>
         </div>';
@@ -112,35 +118,35 @@ if ($result->num_rows > 0) {
         echo '<div class="pagination">';
 
         if ($pagina > 1) {
-            echo '<button class="pagination-button" onclick="loadPage(' . ($pagina - 1) . ')">&laquo; Anterior</button>';
+            echo '<button class="pagination-button" onclick="loadCatalogPage(' . ($pagina - 1) . ')">&laquo; Anterior</button>';
         }
 
         $start = max(1, $pagina - 2);
         $end = min($totalPaginas, $pagina + 2);
 
         if ($start > 1) {
-            echo '<button class="pagination-button" onclick="loadPage(1)">1</button>';
+            echo '<button class="pagination-button" onclick="loadCatalogPage(1)">1</button>';
             if ($start > 2) echo '<span class="pagination-dots">...</span>';
         }
 
         for ($i = $start; $i <= $end; $i++) {
             $active = $i == $pagina ? ' active' : '';
-            echo '<button class="pagination-button' . $active . '" onclick="loadPage(' . $i . ')">' . $i . '</button>';
+            echo '<button class="pagination-button' . $active . '" onclick="loadCatalogPage(' . $i . ')">' . $i . '</button>';
         }
 
         if ($end < $totalPaginas) {
             if ($end < $totalPaginas - 1) echo '<span class="pagination-dots">...</span>';
-            echo '<button class="pagination-button" onclick="loadPage(' . $totalPaginas . ')">' . $totalPaginas . '</button>';
+            echo '<button class="pagination-button" onclick="loadCatalogPage(' . $totalPaginas . ')">' . $totalPaginas . '</button>';
         }
 
         if ($pagina < $totalPaginas) {
-            echo '<button class="pagination-button" onclick="loadPage(' . ($pagina + 1) . ')">Siguiente &raquo;</button>';
+            echo '<button class="pagination-button" onclick="loadCatalogPage(' . ($pagina + 1) . ')">Siguiente &raquo;</button>';
         }
 
         echo '</div></div>';
     }
 } else {
-    echo '<div class="no-results">No se encontraron novelas con estos filtros. <button onclick="loadPage(1)" class="reset-btn">Mostrar todos</button></div>';
+    echo '<div class="no-results">No se encontraron novelas con estos filtros.</div>';
 }
 
 $stmt->close();

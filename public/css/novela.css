@@ -50,245 +50,96 @@ header .menu a.menu-button:hover {
     box-shadow: 0 0 14px rgba(0, 206, 209, 0.5) !important;
 }
 
-/* Filtros y Buscador */
-.filter-container {
+/* ── Filtros y tarjetas — tema teal sobre el markup compartido de catalogo.css ── */
+.novela-container .Filters {
     background: var(--novela-card-bg) !important;
     border: 1px solid rgba(0, 206, 209, 0.4) !important;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: flex-end;
 }
 
-.filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1;
-    min-width: 200px;
+.novela-container .Filter-Input,
+.novela-container .cs-selected,
+.novela-container .ms-trigger {
+    background-color: #071716 !important;
+    border-color: rgba(0, 206, 209, 0.5) !important;
 }
 
-.filter-group label {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--light-teal) !important;
-}
-
-.filter-input {
-    background: #071716 !important;
-    border: 1px solid rgba(0, 206, 209, 0.5) !important;
-    color: #ffffff !important;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    width: 100%;
-    transition: border-color 0.2s;
-}
-
-.filter-input:focus {
-    border-color: var(--light-teal) !important;
-    outline: none;
-}
-
-/* Custom Select Dropdown */
-.cs-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.cs-select {
-    background: #071716 !important;
-    border: 1px solid rgba(0, 206, 209, 0.5) !important;
-    color: #ffffff !important;
-    padding: 10px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-}
-
-.cs-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: #0a1f1c !important;
-    border: 1px solid rgba(0, 206, 209, 0.6) !important;
-    border-radius: 8px;
-    margin-top: 5px;
-    max-height: 240px;
-    overflow-y: auto;
-    z-index: 100;
-    display: none;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.7);
-}
-
-.cs-dropdown.open {
-    display: block;
-}
-
-.cs-option {
-    padding: 10px 14px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #ffffff !important;
-    transition: background 0.2s;
-}
-
-.cs-option:hover {
-    background: #12302c !important;
-}
-
-.cs-option.selected {
-    background: var(--primary-teal) !important;
-    color: #06201f !important;
-}
-
-/* Multi-select de Géneros */
-.ms-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 6px;
-    background: #071716 !important;
-    border: 1px solid rgba(0, 206, 209, 0.5) !important;
-    border-radius: 8px;
-    min-height: 42px;
-}
-
-.ms-tag {
-    background: var(--primary-teal) !important;
-    color: #06201f !important;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 600;
-}
-
-.ms-tag-remove {
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.btn-reset {
-    background: #12302c !important;
-    border: 1px solid rgba(0, 206, 209, 0.6) !important;
-    color: #ffffff !important;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    height: 42px;
-    transition: all 0.2s;
-}
-
-.btn-reset:hover {
-    background: var(--primary-teal) !important;
-    color: #06201f !important;
-}
-
-/* Resultados de Novelas */
-.novela-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
-    margin-bottom: 40px;
-}
-
-.novela-card {
-    background: var(--novela-card-bg) !important;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    border: 1px solid rgba(0, 206, 209, 0.2) !important;
-}
-
-.novela-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 206, 209, 0.5);
+.novela-container .Filter-Input:focus,
+.novela-container .custom-select.open .cs-selected,
+.novela-container .multi-select.open .ms-trigger {
     border-color: var(--primary-teal) !important;
 }
 
-.novela-card a {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    color: inherit;
-    text-decoration: none;
+.novela-container .custom-select::after,
+.novela-container .multi-select::after {
+    color: var(--primary-teal) !important;
 }
 
-.novela-cover-wrapper {
-    position: relative;
-    aspect-ratio: 2/3;
-    width: 100%;
+.novela-container .cs-options,
+.novela-container .ms-dropdown {
+    background: #0a1f1c !important;
+    border-color: var(--primary-teal) !important;
 }
 
-.novela-cover {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.novela-container .cs-options::-webkit-scrollbar-thumb,
+.novela-container .ms-list::-webkit-scrollbar-thumb {
+    background: var(--primary-teal) !important;
 }
 
-.novela-status-tag {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #ffffff !important;
-    background: rgba(0,0,0,0.8);
+.novela-container .cs-option:hover,
+.novela-container .ms-item:hover {
+    background: #12302c !important;
 }
 
-.novela-status-tag.emision      { border-left: 3px solid #00c864 !important; }
-.novela-status-tag.finalizado   { border-left: 3px solid var(--primary-teal) !important; }
-.novela-status-tag.proximamente { border-left: 3px solid #ff9e00 !important; }
-
-.novela-info {
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+.novela-container .cs-option.selected {
+    color: var(--primary-teal) !important;
 }
 
-.novela-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #ffffff !important;
-    margin: 0 0 8px 0;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    height: 38px;
+.novela-container .ms-item.checked .ms-checkbox {
+    background: var(--primary-teal) !important;
+    border-color: var(--primary-teal) !important;
 }
 
-.novela-genres {
-    font-size: 11px;
-    color: #7fd8d8 !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.novela-container .ms-search:focus {
+    border-color: var(--primary-teal) !important;
 }
 
-/* Componente de Paginación */
+.novela-container .ms-clear {
+    color: var(--light-teal) !important;
+}
+
+.novela-container .ms-tag {
+    background: var(--primary-teal) !important;
+    color: #06201f !important;
+}
+
+.novela-container .reset-btn {
+    background: #12302c !important;
+    border: 1px solid rgba(0, 206, 209, 0.6) !important;
+}
+
+.novela-container .reset-btn:hover {
+    background: var(--primary-teal) !important;
+    color: #06201f !important;
+}
+
+.novela-container .Anime-Card {
+    background: var(--novela-card-bg) !important;
+    border-color: rgba(0, 206, 209, 0.2) !important;
+}
+
+.novela-container .Anime-Card:hover {
+    box-shadow: 0 8px 20px rgba(0, 206, 209, 0.5) !important;
+    border-color: var(--primary-teal) !important;
+}
+
+.novela-container .Type-Badge[data-type="novela"] {
+    background: var(--primary-teal) !important;
+    color: #06201f !important;
+}
+
+.novela-container .Anime-Card:hover .Anime-Title {
+    color: var(--light-teal) !important;
+}
 .pagination-container {
     display: flex;
     flex-direction: column;
@@ -342,17 +193,6 @@ header .menu a.menu-button:hover {
     padding: 40px;
     text-align: center;
     font-weight: 600;
-}
-
-.no-results .reset-btn {
-    background: var(--primary-teal);
-    color: #06201f;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 700;
-    margin-left: 10px;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════

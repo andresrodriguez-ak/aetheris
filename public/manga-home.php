@@ -23,7 +23,6 @@ require_once __DIR__ . '/../src/includes/header.php';
                     <div class="cs-option selected" data-value="">Todos los estados</div>
                     <div class="cs-option" data-value="En emisión">En emisión</div>
                     <div class="cs-option" data-value="Finalizado">Finalizado</div>
-                    <div class="cs-option" data-value="Próximamente">Próximamente</div>
                 </div>
             </div>
         </div>
